@@ -1,45 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
 @import "tailwindcss";
 
+/* Custom theme variables */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  /* Colors - Using your original HSL values */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 15%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 15%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 15%;
+
+  --primary: 48 55% 43%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 57 55% 43%;
+  --secondary-foreground: 0 0% 100%;
+
+  --tertiary: 66 55% 43%;
+  --tertiary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 92%;
+  --muted-foreground: 0 0% 40%;
+
+  --accent: 48 55% 43%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 0 0% 90%;
+  --input: 0 0% 96%;
+  --ring: 48 55% 43%;
+
+  --radius: 0.5rem;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.dark {
+  --background: 0 0% 8%;
+  --foreground: 0 0% 95%;
+
+  --card: 0 0% 12%;
+  --card-foreground: 0 0% 95%;
+
+  --popover: 0 0% 12%;
+  --popover-foreground: 0 0% 95%;
+
+  --primary: 48 55% 43%;
+  --primary-foreground: 0 0% 8%;
+
+  --secondary: 57 55% 43%;
+  --secondary-foreground: 0 0% 8%;
+
+  --tertiary: 66 55% 43%;
+  --tertiary-foreground: 0 0% 8%;
+
+  --muted: 0 0% 30%;
+  --muted-foreground: 0 0% 70%;
+
+  --accent: 48 55% 43%;
+  --accent-foreground: 0 0% 8%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 0 0% 20%;
+  --input: 0 0% 15%;
+  --ring: 48 55% 43%;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Theme configuration */
+@theme {
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-tertiary: hsl(var(--tertiary));
+  --color-tertiary-foreground: hsl(var(--tertiary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Border Radius */
+  --radius: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-md: var(--radius);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* Base styles */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+  }
+
+  /* Text overflow handling */
+  :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  pre,
+  code {
+    overflow-x: auto;
+    white-space: pre;
+  }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+/* Custom utilities */
+@utility text-balance {
+  text-wrap: balance;
 }
