@@ -138,7 +138,7 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-gray-300">
-                <Phone size={18} className="text-primary flex-shrink-0" />
+                <Phone size={18} className="text-primary shrink-0" />
                 <a
                   href="tel:+1234567890"
                   className="hover:text-primary transition-colors"
@@ -147,7 +147,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-300">
-                <Mail size={18} className="text-primary flex-shrink-0" />
+                <Mail size={18} className="text-primary shrink-0" />
                 <a
                   href="mailto:info@ayelehomes.com"
                   className="hover:text-primary transition-colors"
@@ -156,10 +156,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex gap-3 text-sm text-gray-300">
-                <MapPin
-                  size={18}
-                  className="text-primary flex-shrink-0 mt-0.5"
-                />
+                <MapPin size={18} className="text-primary shrink-0 mt-0.5" />
                 <span>123 Main Street, City, State 12345</span>
               </li>
             </ul>

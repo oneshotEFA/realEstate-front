@@ -1,4 +1,3 @@
-
 import {
   ChevronRight,
   Home as HomeIcon,
@@ -10,7 +9,6 @@ import {
   DollarSign,
 } from "lucide-react";
 import Link from "next/link";
-
 
 const Home = () => {
   // Mock featured properties data
@@ -91,7 +89,7 @@ const Home = () => {
       {/* 1. Hero Section */}
       <section className="relative px-4 md:px-8 py-20 md:py-32 overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 -z-10" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-secondary/5 -z-10" />
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -139,13 +137,13 @@ const Home = () => {
             </div>
 
             {/* Right: Hero Image */}
-            <div className="relative h-96 md:h-full min-h-[400px] rounded-2xl overflow-hidden">
+            <div className="relative h-96 md:h-full min-h-100 rounded-2xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1570129477492-45b003493e3b?w=800&h=600&fit=crop"
                 alt="Beautiful modern home"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
             </div>
           </div>
         </div>
@@ -241,7 +239,7 @@ const Home = () => {
                 alt="Team at Ayele Homes"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-primary/30 to-transparent" />
             </div>
 
             {/* Content */}
@@ -363,8 +361,8 @@ const Home = () => {
             </div>
 
             {/* Gradient overlays for visual effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-12 bg-linear-to-r from-primary/5 to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-12 bg-linear-to-l from-primary/5 to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
