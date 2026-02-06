@@ -434,7 +434,7 @@ const UniversalListingPage = () => {
 
   // Enhanced Filter Section with dynamic filters
   const FilterSection = () => (
-    <aside className="w-full space-y-6">
+    <aside className="w-full  space-y-6">
       {/* Header Section with Neon Accent */}
       <div className="relative overflow-hidden bg-white/80 backdrop-blur-xl rounded-3xl p-6 border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
@@ -1030,7 +1030,7 @@ const UniversalListingPage = () => {
                       return (
                         <Link
                           key={listing.pid}
-                          href={`/listings/${listing.slug}`}
+                          href={`/properties/${listing.pid}`}
                           className={`group bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 ${
                             viewMode === "list"
                               ? "flex flex-col md:flex-row"
