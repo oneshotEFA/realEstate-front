@@ -7,6 +7,9 @@ import {
   Bed,
   Ruler,
   DollarSign,
+  Car,
+  ShoppingBag,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -60,18 +63,36 @@ const Home = () => {
     {
       icon: Building2,
       label: "Apartments",
-      types: ["For Sale", "For Rent"],
+      types: ["For Sale", "For Rent","Furnished",  "To Buy"],
     },
     {
       icon: HomeIcon,
       label: "Houses",
-      types: ["For Sale", "For Rent"],
+      types: ["For Sale", "For Rent", "To Buy"],
     },
     {
       icon: Leaf,
       label: "Land",
-      types: ["For Sale"],
+      types: ["For Sale", "To Buy"],
     },
+     {
+      icon: Car,
+      label: "Car",
+      types: ["For Sale", "For Rent", "To Buy"],
+    },
+
+    {
+      icon: ShoppingBag,
+      label: "Commercial Properties",
+      types: ["Offices","Shops"," Warehouses", "Hotels"],
+    }
+    ,
+    {
+      icon: Clock,
+      label: "Short-Term Rentals",
+      types: ["Daily/Weekly","Furnished"," Airbnb"],
+    }
+
   ];
 
   // Trusted by companies (mock)
@@ -100,9 +121,9 @@ const Home = () => {
                   Find Your Dream <span className="text-primary">Home</span>
                 </h1>
                 <p className="text-lg md:text-xl text-foreground/70">
-                  Discover exceptional properties tailored to your lifestyle.
-                  Expert guidance, transparent process, and your satisfaction
-                  guaranteed.
+                  Find the home that truly fits your life. With Ayele Homes, 
+                  you get honest guidance,
+                  a smooth process, and support you can trust.
                 </p>
               </div>
 
@@ -139,8 +160,8 @@ const Home = () => {
             {/* Right: Hero Image */}
             <div className="relative h-96 md:h-full min-h-100 rounded-2xl overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1570129477492-45b003493e3b?w=800&h=600&fit=crop"
-                alt="Beautiful modern home"
+                src="https://res.cloudinary.com/dobairxju/image/upload/v1770385434/logo2_k0955s.jpg"
+                alt="logo"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
@@ -155,7 +176,7 @@ const Home = () => {
           <div className="flex items-center justify-between mb-12">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-                Featured Properties
+                Featured <span className="text-primary">Properties</span>
               </h2>
               <p className="text-foreground/60">
                 Handpicked homes that match your lifestyle
@@ -252,7 +273,7 @@ const Home = () => {
                   Your Trusted Real Estate Partner
                 </h2>
                 <p className="text-foreground/70 leading-relaxed">
-                  With over 15 years of experience, Ayele Homes has helped
+                  With over 25 years of experience, Ayele Homes has helped
                   thousands of families find their perfect home. Our dedicated
                   team combines expertise, integrity, and passion to deliver
                   exceptional service.
