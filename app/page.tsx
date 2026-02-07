@@ -85,7 +85,6 @@ const Home = () => {
       types: ["For Sale", "For Rent","Furnished",  "To Buy"],
       count: "124",
       color: "bg-blue-100 text-blue-600",
-      types: ["For Sale", "For Rent"],
     },
     {
       icon: HomeIcon,
@@ -93,7 +92,6 @@ const Home = () => {
       types: ["For Sale", "For Rent", "To Buy"],
       count: "89",
       color: "bg-green-100 text-green-600",
-      types: ["For Sale", "For Rent"],
     },
     {
       icon: Leaf,
@@ -101,7 +99,6 @@ const Home = () => {
       types: ["For Sale", "To Buy"],
       count: "42",
       color: "bg-amber-100 text-amber-600",
-      types: ["For Sale"],
     },
      {
       icon: Car,
