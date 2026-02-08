@@ -82,7 +82,7 @@ const Home = () => {
     {
       icon: Building2,
       label: "Apartments",
-      types: ["For Sale", "For Rent","Furnished",  "To Buy"],
+      types: ["For Sale", "For Rent", "Furnished", "To Buy"],
       count: "124",
       color: "bg-blue-100 text-blue-600",
     },
@@ -100,7 +100,7 @@ const Home = () => {
       count: "42",
       color: "bg-amber-100 text-amber-600",
     },
-     {
+    {
       icon: Car,
       label: "Car",
       types: ["For Sale", "For Rent", "To Buy"],
@@ -109,15 +109,13 @@ const Home = () => {
     {
       icon: ShoppingBag,
       label: "Commercial Properties",
-      types: ["Offices","Shops"," Warehouses", "Hotels"],
-    }
-    ,
+      types: ["Offices", "Shops", " Warehouses", "Hotels"],
+    },
     {
       icon: Clock,
       label: "Short-Term Rentals",
-      types: ["Daily/Weekly","Furnished"," Airbnb"],
-    }
-
+      types: ["Daily/Weekly", "Furnished", " Airbnb"],
+    },
   ];
 
   // Stats
@@ -165,9 +163,9 @@ const Home = () => {
                   Home
                 </h1>
                 <p className="text-lg md:text-xl text-foreground/70">
-                  Find the home that truly fits your life. With Ayele Homes, 
-                  you get honest guidance,
-                  a smooth process, and support you can trust.
+                  Find the home that truly fits your life. With Ayele Homes, you
+                  get honest guidance, a smooth process, and support you can
+                  trust.
                 </p>
               </div>
 

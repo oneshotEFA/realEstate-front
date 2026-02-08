@@ -1,0 +1,37 @@
+{
+  "pid": "prop_0001",
+  "title": "Modern 3-Bedroom Family Home",
+  "slug": "modern-3-bedroom-family-home",
+  "description": "A modern and spacious family home located in a quiet residential neighborhood with great road access.",
+  "price": 185000,
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "squareFeet": 1650,
+  "lotSize": 420,
+  "yearBuilt": 2019,
+  "address": "123 Sunrise Avenue",
+  "city": "Adama",
+  "state": "Oromia",
+  "zip": "12345",
+  "latitude": 8.5401,
+  "longitude": 39.2695,
+  "status": "ACTIVE",
+  "type": "PROPERTY",
+  "agentId": "agent_101",
+  "images": [
+    "https://images.unsplash.com/photo-1572120360610-d971b9d7767c",
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
+  ],
+  "inquiries": [],
+  "seoTitle": "Modern 3-Bedroom House for Sale in Adama",
+  "seoDescription": "Discover a modern 3-bedroom family house in Adama with a spacious layout and elegant design.",
+  "createdAt": "2026-02-01T10:15:30.000Z",
+  "updatedAt": "2026-02-05T08:45:10.000Z",
+  "agent": {
+    "id": "agent_101",
+    "name": "Samuel Bekele",
+    "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
+    "rating": 4.7
+  }
+}

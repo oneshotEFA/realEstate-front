@@ -1,0 +1,37 @@
+{
+  "pid": "prop_003",
+  "title": "Affordable Suburban Starter Home",
+  "slug": "affordable-suburban-starter-home",
+  "description": "An affordable starter home perfect for first-time buyers, located in a calm suburban area.",
+  "price": 98000,
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "squareFeet": 900,
+  "lotSize": 300,
+  "yearBuilt": 2014,
+  "address": "78 Green Valley Street",
+  "city": "Bishoftu",
+  "state": "Oromia",
+  "zip": "2211",
+  "latitude": 8.7524,
+  "longitude": 38.979,
+  "status": "ACTIVE",
+  "type": "PROPERTY",
+  "agentId": "agent_103",
+  "images": [
+    "https://images.unsplash.com/photo-1599423300746-b62533397364",
+    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf",
+    "https://images.unsplash.com/photo-1576941089067-2de3c901e126"
+  ],
+  "inquiries": [],
+  "seoTitle": "Affordable House for Sale in Bishoftu",
+  "seoDescription": "Budget-friendly 2-bedroom house in Bishoftu, ideal for first-time homeowners.",
+  "createdAt": "2026-01-10T11:00:00.000Z",
+  "updatedAt": "2026-01-28T16:30:00.000Z",
+  "agent": {
+    "id": "agent_103",
+    "name": "Abel Girma",
+    "avatar": "https://randomuser.me/api/portraits/men/65.jpg",
+    "rating": 4.4
+  }
+}

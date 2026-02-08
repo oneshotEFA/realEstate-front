@@ -1,0 +1,39 @@
+{
+  "id": "agent_101",
+  "userId": "user_101",
+  "bio": "Experienced residential real estate agent specializing in family homes and suburban properties.",
+  "licenseId": "LIC-ET-2021-101",
+  "yearsExperience": 6,
+  "specialties": ["Residential", "Family Homes", "First-Time Buyers"],
+  "listings": [],
+  "createdAt": "2025-06-12T09:30:00.000Z",
+  "updatedAt": "2026-02-01T10:15:00.000Z",
+  "user": {
+    "id": "user_101",
+    "name": "Samuel Bekele",
+    "email": "samuel.bekele@example.com",
+    "phone": "+251911234567",
+    "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
+    "address": "Bole Road",
+    "city": "Addis Ababa",
+    "state": "Addis Ababa",
+    "zip": "1000",
+    "rating": 4.7,
+    "reviews": 128,
+    "website": "https://samuelrealty.com",
+    "social": {
+      "linkedin": "https://linkedin.com/in/samuelbekele",
+      "facebook": "https://facebook.com/samuelbekele"
+    }
+  },
+  "stats": {
+    "totalListings": 54,
+    "activeListings": 12,
+    "totalVolume": 4200000,
+    "avgDaysOnMarket": 29,
+    "clientSatisfaction": 92,
+    "listToSaleRatio": 0.97
+  },
+  "featured": true,
+  "available": true
+}
