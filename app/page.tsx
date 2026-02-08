@@ -7,9 +7,6 @@ import {
   Bed,
   Ruler,
   DollarSign,
-  Car,
-  ShoppingBag,
-  Clock,
   Star,
   Shield,
   TrendingUp,
@@ -82,42 +79,21 @@ const Home = () => {
     {
       icon: Building2,
       label: "Apartments",
-      types: ["For Sale", "For Rent","Furnished",  "To Buy"],
       count: "124",
       color: "bg-blue-100 text-blue-600",
     },
     {
       icon: HomeIcon,
       label: "Houses",
-      types: ["For Sale", "For Rent", "To Buy"],
       count: "89",
       color: "bg-green-100 text-green-600",
     },
     {
       icon: Leaf,
       label: "Land",
-      types: ["For Sale", "To Buy"],
       count: "42",
       color: "bg-amber-100 text-amber-600",
     },
-     {
-      icon: Car,
-      label: "Car",
-      types: ["For Sale", "For Rent", "To Buy"],
-    },
-
-    {
-      icon: ShoppingBag,
-      label: "Commercial Properties",
-      types: ["Offices","Shops"," Warehouses", "Hotels"],
-    }
-    ,
-    {
-      icon: Clock,
-      label: "Short-Term Rentals",
-      types: ["Daily/Weekly","Furnished"," Airbnb"],
-    }
-
   ];
 
   // Stats
@@ -164,10 +140,9 @@ const Home = () => {
                   </span>{" "}
                   Home
                 </h1>
-                <p className="text-lg md:text-xl text-foreground/70">
-                  Find the home that truly fits your life. With Ayele Homes, 
-                  you get honest guidance,
-                  a smooth process, and support you can trust.
+                <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
+                  Experience seamless property discovery with our AI-powered
+                  matching. Find properties that truly feel like home.
                 </p>
               </div>
 
@@ -333,7 +308,7 @@ const Home = () => {
                 <Star size={14} /> Premium Selection
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-                Featured <span className="text-primary">Properties</span>
+                Featured Properties
               </h2>
               <p className="text-foreground/60">
                 Handpicked homes that match your lifestyle
@@ -491,11 +466,10 @@ const Home = () => {
                 <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                   Your Trusted Partner in Real Estate Journey
                 </h2>
-                <p className="text-foreground/70 leading-relaxed">
-                  With over 25 years of experience, Ayele Homes has helped
-                  thousands of families find their perfect home. Our dedicated
-                  team combines expertise, integrity, and passion to deliver
-                  exceptional service.
+                <p className="text-foreground/70 leading-relaxed text-lg">
+                  At Ayele Homes, we combine cutting-edge technology with
+                  personalized service to make your property search effortless
+                  and successful.
                 </p>
               </div>
 
