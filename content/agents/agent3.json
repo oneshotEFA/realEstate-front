@@ -1,0 +1,37 @@
+{
+  "id": "agent_102",
+  "userId": "user_102",
+  "bio": "Luxury property consultant with a focus on high-end apartments and commercial real estate.",
+  "licenseId": "LIC-ET-2020-204",
+  "yearsExperience": 9,
+  "specialties": ["Luxury", "Apartments", "Commercial"],
+  "listings": [],
+  "createdAt": "2024-11-03T14:00:00.000Z",
+  "updatedAt": "2026-01-28T16:40:00.000Z",
+  "user": {
+    "id": "user_102",
+    "name": "Hanna Tesfaye",
+    "email": "hanna.tesfaye@example.com",
+    "phone": "+251922334455",
+    "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+    "city": "Addis Ababa",
+    "state": "Addis Ababa",
+    "rating": 4.9,
+    "reviews": 201,
+    "website": "https://hannaluxuryhomes.com",
+    "social": {
+      "linkedin": "https://linkedin.com/in/hannatesfaye",
+      "instagram": "https://instagram.com/hannaluxuryhomes"
+    }
+  },
+  "stats": {
+    "totalListings": 72,
+    "activeListings": 18,
+    "totalVolume": 8900000,
+    "avgDaysOnMarket": 21,
+    "clientSatisfaction": 96,
+    "listToSaleRatio": 1.02
+  },
+  "featured": true,
+  "available": true
+}

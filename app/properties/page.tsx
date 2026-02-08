@@ -1,5 +1,6 @@
 "use client";
 
+import { listingService } from "@/lib/services/listings";
 import {
   Search,
   Filter,
@@ -33,10 +34,13 @@ import {
   BookOpen,
   Music2,
   Gamepad2,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight,
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
-
+import useSWR from "swr";
 // Types based on your Prisma schema
 type ListingStatus = "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
 type ListingType = "PROPERTY" | "CAR" | "OTHER";
@@ -77,6 +81,19 @@ interface Listing {
 
 const UniversalListingPage = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const { data: listing } = useSWR<Listing[]>(
+    "listings",
+    () => listingService.getListings(),
+    {
+      revalidateOnFocus: false,
+    },
+  );
+  const listings = listing ?? [];
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Default items per page
+
   const [filters, setFilters] = useState({
     listingType: "all" as ListingType | "all",
     priceRange: [0, 5000000],
@@ -102,134 +119,6 @@ const UniversalListingPage = () => {
   const [activeCategory, setActiveCategory] = useState<ListingType | "all">(
     "all",
   );
-
-  // Mock listings data based on your schema
-  const listings: Listing[] = [
-    // Properties
-    {
-      pid: "prop_1",
-      title: "Modern Luxury Apartment with City Views",
-      slug: "modern-luxury-apartment-city-views",
-      description:
-        "Stunning modern apartment with panoramic city views and premium finishes throughout.",
-      price: 850000,
-      bedrooms: 3,
-      bathrooms: 2,
-      squareFeet: 2400,
-      yearBuilt: 2022,
-      address: "123 Main St",
-      city: "New York",
-      state: "NY",
-      zip: "10001",
-      status: "ACTIVE",
-      type: "PROPERTY",
-      agentId: "agent_1",
-      images: [
-        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop",
-      ],
-      inquiries: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      agent: {
-        id: "agent_1",
-        name: "Sarah Johnson",
-        avatar:
-          "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
-        rating: 4.9,
-      },
-    },
-    {
-      pid: "prop_2",
-      title: "Family House with Large Garden",
-      slug: "family-house-large-garden",
-      description:
-        "Beautiful family home with spacious rooms and a large backyard perfect for entertaining.",
-      price: 1250000,
-      bedrooms: 4,
-      bathrooms: 3,
-      squareFeet: 3500,
-      yearBuilt: 2020,
-      address: "456 Oak Avenue",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      status: "ACTIVE",
-      type: "PROPERTY",
-      agentId: "agent_2",
-      images: [
-        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&h=400&fit=crop",
-      ],
-      inquiries: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      agent: {
-        id: "agent_2",
-        name: "Michael Chen",
-        avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
-        rating: 4.8,
-      },
-    },
-    // Cars
-    {
-      pid: "car_1",
-      title: "Tesla Model S Plaid 2023",
-      slug: "tesla-model-s-plaid-2023",
-      description:
-        "Fully loaded Tesla Model S Plaid with ludicrous mode, low mileage, and all packages included.",
-      price: 95000,
-      address: "Auto Plaza",
-      city: "Miami",
-      state: "FL",
-      zip: "33101",
-      status: "ACTIVE",
-      type: "CAR",
-      agentId: "agent_3",
-      images: [
-        "https://images.unsplash.com/photo-1562911791-c7a97b729ec5?w=600&h=400&fit=crop",
-      ],
-      inquiries: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      agent: {
-        id: "agent_3",
-        name: "Emma Wilson",
-        avatar:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-        rating: 4.7,
-      },
-    },
-    {
-      pid: "car_2",
-      title: "BMW M5 Competition 2022",
-      slug: "bmw-m5-competition-2022",
-      description:
-        "BMW M5 Competition with full carbon package, executive package, and ceramic brakes.",
-      price: 125000,
-      address: "Luxury Motors",
-      city: "Chicago",
-      state: "IL",
-      zip: "60601",
-      status: "ACTIVE",
-      type: "CAR",
-      agentId: "agent_4",
-      images: [
-        "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=400&fit=crop",
-      ],
-      inquiries: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      agent: {
-        id: "agent_4",
-        name: "David Miller",
-        avatar:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-        rating: 4.9,
-      },
-    },
-  ];
-
-  // Category definitions
   const categories = [
     {
       value: "all" as ListingType | "all",
@@ -282,15 +171,18 @@ const UniversalListingPage = () => {
     { value: "oldest", label: "Oldest", icon: Clock },
   ];
 
+  // Items per page options
+  const itemsPerPageOptions = [6, 12, 24, 48, 96];
+
   // City options (unique cities from listings)
   const cityOptions = [
     "all",
-    ...Array.from(new Set(listings.map((l) => l.city))),
+    ...Array.from(new Set(listings?.map((l) => l.city))),
   ];
 
   // Filter listings
   const filteredListings = useMemo(() => {
-    let result = [...listings];
+    let result = [...(listings ?? [])];
 
     // Search filter
     if (filters.searchQuery) {
@@ -325,39 +217,46 @@ const UniversalListingPage = () => {
         listing.price <= filters.priceRange[1],
     );
 
-    // Property-specific filters
+    // Property-specific filters - FIXED SECTION
     if (filters.listingType === "PROPERTY" || filters.listingType === "all") {
       // Bedrooms filter
       if (filters.bedrooms !== "any") {
-        const minBeds = Number(filters.bedrooms);
-        result = result.filter(
-          (listing) => listing.bedrooms && listing.bedrooms >= minBeds,
-        );
+        const minBeds =
+          filters.bedrooms === "4+" ? 4 : Number(filters.bedrooms);
+        result = result.filter((listing) => {
+          if (listing.type !== "PROPERTY") return true; // ignore non-properties
+          return (listing.bedrooms ?? 0) >= minBeds;
+        });
       }
 
       // Bathrooms filter
       if (filters.bathrooms !== "any") {
         const minBaths = Number(filters.bathrooms);
-        result = result.filter(
-          (listing) => listing.bathrooms && listing.bathrooms >= minBaths,
-        );
+        result = result.filter((listing) => {
+          if (listing.type !== "PROPERTY") return true; // ignore non-properties
+          return (listing.bathrooms ?? 0) >= minBaths;
+        });
       }
 
       // Square feet filter
-      result = result.filter(
-        (listing) =>
+      result = result.filter((listing) => {
+        if (listing.type !== "PROPERTY") return true; // ignore non-properties
+        return (
           !listing.squareFeet ||
           (listing.squareFeet >= filters.squareFeet[0] &&
-            listing.squareFeet <= filters.squareFeet[1]),
-      );
+            listing.squareFeet <= filters.squareFeet[1])
+        );
+      });
 
       // Year built filter
-      result = result.filter(
-        (listing) =>
+      result = result.filter((listing) => {
+        if (listing.type !== "PROPERTY") return true; // ignore non-properties
+        return (
           !listing.yearBuilt ||
           (listing.yearBuilt >= filters.yearBuilt[0] &&
-            listing.yearBuilt <= filters.yearBuilt[1]),
-      );
+            listing.yearBuilt <= filters.yearBuilt[1])
+        );
+      });
     }
 
     // Sort
@@ -390,7 +289,23 @@ const UniversalListingPage = () => {
     }
 
     return result;
-  }, [filters]);
+  }, [filters, listings]);
+
+  // Pagination calculations
+  const totalItems = filteredListings.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, itemsPerPage]);
+
+  // Get current page items
+  const currentItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredListings.slice(startIndex, endIndex);
+  }, [filteredListings, currentPage, itemsPerPage]);
 
   // Handle category change
   const handleCategoryChange = (category: ListingType | "all") => {
@@ -420,7 +335,7 @@ const UniversalListingPage = () => {
 
   // Get category stats
   const categoryStats = categories.map((category) => {
-    const count = listings.filter((listing) =>
+    const count = listings?.filter((listing) =>
       category.value === "all" ? true : listing.type === category.value,
     ).length;
     const totalValue = listings
@@ -431,6 +346,179 @@ const UniversalListingPage = () => {
 
     return { ...category, count, totalValue };
   });
+
+  // Pagination component
+  const Pagination = () => {
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    // Adjust start page if we're near the end
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    const pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t border-border">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-foreground/60">Show:</span>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="px-3 py-1.5 border border-border rounded-lg bg-white text-sm font-medium"
+            >
+              {itemsPerPageOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option} per page
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="text-sm text-foreground/60">
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+            items
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* First page */}
+          <button
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+            className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            <ChevronsLeft size={18} className="text-foreground/60" />
+          </button>
+
+          {/* Previous page */}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            <ChevronLeft size={18} className="text-foreground/60" />
+          </button>
+
+          {/* Page numbers */}
+          <div className="flex items-center gap-1">
+            {startPage > 1 && (
+              <>
+                <button
+                  onClick={() => setCurrentPage(1)}
+                  className="w-10 h-10 rounded-lg text-sm font-medium hover:bg-primary/5"
+                >
+                  1
+                </button>
+                {startPage > 2 && (
+                  <span className="px-2 text-foreground/40">...</span>
+                )}
+              </>
+            )}
+
+            {pageNumbers.map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                  currentPage === page
+                    ? "bg-linear-to-r from-primary to-secondary text-white shadow-md"
+                    : "hover:bg-primary/5"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            {endPage < totalPages && (
+              <>
+                {endPage < totalPages - 1 && (
+                  <span className="px-2 text-foreground/40">...</span>
+                )}
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  className="w-10 h-10 rounded-lg text-sm font-medium hover:bg-primary/5"
+                >
+                  {totalPages}
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Next page */}
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+            }
+            disabled={currentPage === totalPages}
+            className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            <ChevronRight size={18} className="text-foreground/60" />
+          </button>
+
+          {/* Last page */}
+          <button
+            onClick={() => setCurrentPage(totalPages)}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            <ChevronsRight size={18} className="text-foreground/60" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // Compact pagination for mobile
+  const CompactPagination = () => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="lg:hidden flex flex-col items-center gap-4 mt-8">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="px-4 py-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
+          >
+            Previous
+          </button>
+
+          <span className="text-sm font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+            }
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
+          >
+            Next
+          </button>
+        </div>
+
+        <div className="text-sm text-foreground/60">
+          Showing {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          items
+        </div>
+      </div>
+    );
+  };
 
   // Enhanced Filter Section with dynamic filters
   const FilterSection = () => (
@@ -453,7 +541,7 @@ const UniversalListingPage = () => {
           </div>
 
           <button
-            onClick={() =>
+            onClick={() => {
               setFilters({
                 listingType: "all",
                 priceRange: [0, 5000000],
@@ -469,8 +557,9 @@ const UniversalListingPage = () => {
                 carType: "all",
                 electronicsCondition: "all",
                 searchQuery: "",
-              })
-            }
+              });
+              setCurrentPage(1);
+            }}
             className="group flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all duration-300"
           >
             <X
@@ -496,6 +585,7 @@ const UniversalListingPage = () => {
                   onClick={() => {
                     handleCategoryChange(category.value as ListingType | "all");
                     setShowFilters(false);
+                    setCurrentPage(1);
                   }}
                   className={`relative flex flex-col items-start p-3 rounded-2xl border transition-all duration-500 overflow-hidden group ${
                     isActive
@@ -558,12 +648,13 @@ const UniversalListingPage = () => {
             {pricePresets.slice(0, 4).map((preset, idx) => (
               <button
                 key={idx}
-                onClick={() =>
+                onClick={() => {
                   setFilters((prev) => ({
                     ...prev,
                     priceRange: [preset.min, preset.max],
-                  }))
-                }
+                  }));
+                  setCurrentPage(1);
+                }}
                 className="py-2 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 text-[10px] font-bold transition-all"
               >
                 {preset.label}
@@ -592,9 +683,10 @@ const UniversalListingPage = () => {
                   {["any", "1", "2", "3", "4+"].map((num) => (
                     <button
                       key={num}
-                      onClick={() =>
-                        setFilters((p) => ({ ...p, bedrooms: num }))
-                      }
+                      onClick={() => {
+                        setFilters((p) => ({ ...p, bedrooms: num }));
+                        setCurrentPage(1);
+                      }}
                       className={`w-10 h-10 rounded-xl text-xs font-bold transition-all ${
                         filters.bedrooms === num
                           ? "bg-white text-primary shadow-sm scale-110"
@@ -618,9 +710,10 @@ const UniversalListingPage = () => {
           <div className="relative group">
             <select
               value={filters.sortBy}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, sortBy: e.target.value }))
-              }
+              onChange={(e) => {
+                setFilters((prev) => ({ ...prev, sortBy: e.target.value }));
+                setCurrentPage(1);
+              }}
               className="w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
             >
               {sortOptions.map((opt) => (
@@ -675,7 +768,9 @@ const UniversalListingPage = () => {
     }
 
     if (filters.bedrooms !== "any") {
-      activeFilters.push(`${filters.bedrooms}+ Beds`);
+      activeFilters.push(
+        filters.bedrooms === "4+" ? "4+ Beds" : `${filters.bedrooms}+ Beds`,
+      );
     }
 
     if (filters.bathrooms !== "any") {
@@ -704,7 +799,7 @@ const UniversalListingPage = () => {
           </div>
         ))}
         <button
-          onClick={() =>
+          onClick={() => {
             setFilters({
               listingType: "all",
               priceRange: [0, 5000000],
@@ -720,8 +815,9 @@ const UniversalListingPage = () => {
               carType: "all",
               electronicsCondition: "all",
               searchQuery: "",
-            })
-          }
+            });
+            setCurrentPage(1);
+          }}
           className="text-sm text-primary hover:text-primary/80 font-semibold ml-2"
         >
           Clear All
@@ -772,20 +868,22 @@ const UniversalListingPage = () => {
                     <input
                       type="text"
                       value={filters.searchQuery}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setFilters((prev) => ({
                           ...prev,
                           searchQuery: e.target.value,
-                        }))
-                      }
+                        }));
+                        setCurrentPage(1);
+                      }}
                       placeholder="Search for properties, cars, electronics, furniture..."
                       className="flex-1 outline-none text-foreground placeholder:text-foreground/40 bg-transparent"
                     />
                     {filters.searchQuery && (
                       <button
-                        onClick={() =>
-                          setFilters((prev) => ({ ...prev, searchQuery: "" }))
-                        }
+                        onClick={() => {
+                          setFilters((prev) => ({ ...prev, searchQuery: "" }));
+                          setCurrentPage(1);
+                        }}
                         className="p-1 hover:bg-primary/10 rounded"
                       >
                         <X size={18} className="text-foreground/40" />
@@ -815,11 +913,12 @@ const UniversalListingPage = () => {
                   return (
                     <button
                       key={category.value}
-                      onClick={() =>
+                      onClick={() => {
                         handleCategoryChange(
                           category.value as ListingType | "all",
-                        )
-                      }
+                        );
+                        setCurrentPage(1);
+                      }}
                       className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                         activeCategory === category.value
                           ? "bg-primary text-primary-foreground"
@@ -910,12 +1009,34 @@ const UniversalListingPage = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">
-                    Showing {filteredListings.length} Listings
+                    Showing {Math.min(currentItems.length, itemsPerPage)} of{" "}
+                    {totalItems} Listings
+                    {totalPages > 1 &&
+                      ` • Page ${currentPage} of ${totalPages}`}
                   </h2>
                   <ActiveFilters />
                 </div>
 
                 <div className="flex items-center gap-4">
+                  {/* Items per page selector */}
+                  <div className="hidden md:flex items-center gap-2">
+                    <span className="text-sm text-foreground/60">Show:</span>
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                      className="px-3 py-1.5 border border-border rounded-lg bg-white text-sm font-medium"
+                    >
+                      {itemsPerPageOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* View Toggle */}
                   <div className="flex items-center gap-1 bg-white border border-border rounded-xl p-1 shadow-sm">
                     <button
@@ -944,12 +1065,13 @@ const UniversalListingPage = () => {
                   <div className="relative">
                     <select
                       value={filters.sortBy}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setFilters((prev) => ({
                           ...prev,
                           sortBy: e.target.value,
-                        }))
-                      }
+                        }));
+                        setCurrentPage(1);
+                      }}
                       className="appearance-none px-4 py-2.5 border border-border rounded-xl hover:bg-primary/5 transition-all font-medium text-sm pr-10 bg-white"
                     >
                       {sortOptions.map((option) => (
@@ -976,7 +1098,7 @@ const UniversalListingPage = () => {
               </div>
 
               {/* Listings Grid/List */}
-              {filteredListings.length === 0 ? (
+              {currentItems.length === 0 ? (
                 <div className="text-center py-20">
                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Search size={32} className="text-primary" />
@@ -989,7 +1111,7 @@ const UniversalListingPage = () => {
                     listings.
                   </p>
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       setFilters({
                         listingType: "all",
                         priceRange: [0, 5000000],
@@ -1005,8 +1127,9 @@ const UniversalListingPage = () => {
                         carType: "all",
                         electronicsCondition: "all",
                         searchQuery: "",
-                      })
-                    }
+                      });
+                      setCurrentPage(1);
+                    }}
                     className="px-6 py-3 bg-primary text-primary-foreground rounded-xl hover:opacity-90 transition-all font-semibold"
                   >
                     Reset All Filters
@@ -1021,7 +1144,7 @@ const UniversalListingPage = () => {
                         : "space-y-6"
                     }
                   >
-                    {filteredListings.map((listing) => {
+                    {currentItems.map((listing) => {
                       const CategoryIcon = getCategoryIcon(listing.type);
                       const statusColor =
                         statusOptions.find((s) => s.value === listing.status)
@@ -1225,6 +1348,14 @@ const UniversalListingPage = () => {
                       );
                     })}
                   </div>
+
+                  {/* Pagination */}
+                  {filteredListings.length > 0 && (
+                    <>
+                      <Pagination />
+                      <CompactPagination />
+                    </>
+                  )}
                 </>
               )}
 

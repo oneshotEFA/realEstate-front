@@ -1,0 +1,36 @@
+{
+  "pid": "prop_002",
+  "title": "Luxury Downtown Apartment",
+  "slug": "luxury-downtown-apartment",
+  "description": "A luxury apartment located in the heart of the city with stunning skyline views.",
+  "price": 240000,
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "squareFeet": 1200,
+  "yearBuilt": 2021,
+  "address": "45 City Center Road",
+  "city": "Addis Ababa",
+  "state": "Addis Ababa",
+  "zip": "1000",
+  "latitude": 9.03,
+  "longitude": 38.74,
+  "status": "ACTIVE",
+  "type": "PROPERTY",
+  "agentId": "agent_102",
+  "images": [
+    "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+    "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
+  ],
+  "inquiries": [],
+  "seoTitle": "Luxury Apartment for Sale in Addis Ababa",
+  "seoDescription": "High-end apartment in Addis Ababa city center featuring modern interiors and premium amenities.",
+  "createdAt": "2026-01-20T14:10:00.000Z",
+  "updatedAt": "2026-02-03T09:20:00.000Z",
+  "agent": {
+    "id": "agent_102",
+    "name": "Hanna Tesfaye",
+    "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+    "rating": 4.9
+  }
+}
