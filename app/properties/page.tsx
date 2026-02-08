@@ -89,8 +89,14 @@ const UniversalListingPage = () => {
     },
   );
   const listings = listing ?? [];
+  // const { data: listingss } = useSWR<Listing[]>(
+  //   "listingsss",
+  //   () => listingService.getListingByPage(2, 2),
+  //   {
+  //     revalidateOnFocus: false,
+  //   },
+  // );
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Default items per page
 
