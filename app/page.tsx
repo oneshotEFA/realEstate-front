@@ -474,7 +474,7 @@ const Home = () => {
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
-                      15+ Years
+                      25+ Years
                     </p>
                     <p className="text-foreground/60">Industry Experience</p>
                   </div>

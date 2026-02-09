@@ -143,7 +143,7 @@ const Footer = () => {
                   href="tel:+1234567890"
                   className="hover:text-primary transition-colors"
                 >
-                  +1 (234) 567-890
+                  +251 977-32-52-96
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-300">
@@ -157,7 +157,7 @@ const Footer = () => {
               </li>
               <li className="flex gap-3 text-sm text-gray-300">
                 <MapPin size={18} className="text-primary shrink-0 mt-0.5" />
-                <span>123 Main Street, City, State 12345</span>
+                <span>Gerji-bole, Addis Ababa</span>
               </li>
             </ul>
           </div>
