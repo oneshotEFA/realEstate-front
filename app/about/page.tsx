@@ -12,7 +12,7 @@ const About = () => (
         <div className="relative">
           <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-lg">
             <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=700&fit=crop"
+              src="https://res.cloudinary.com/dobairxju/image/upload/v1770385434/logo2_k0955s.jpg"
               alt="Ayele Homes Team"
               className="w-full h-full object-cover"
             />
@@ -122,7 +122,7 @@ const About = () => (
 
       <div className="bg-white border border-border rounded-3xl p-10 shadow-lg">
         <img
-          src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80"
+          src="https://res.cloudinary.com/dv5ngz0tc/image/upload/v1770544077/smiling-customer-service-agent_p8a74j.jpg"
           alt="Graph"
           className="w-full h-[350px] object-cover rounded-xl"
         />
