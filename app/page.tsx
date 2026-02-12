@@ -9,7 +9,7 @@ import {
   MapPin,
   Bed,
   Ruler,
-  DollarSign,
+
   Car,
   ShoppingBag,
   Clock,
