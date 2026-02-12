@@ -1,5 +1,6 @@
 "use client";
 
+import { agentService } from "@/lib/services/agents";
 import {
   Search,
   Filter,
@@ -38,6 +39,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useMemo } from "react";
+import useSWR from "swr";
 
 // Types based on your Prisma schema
 interface Agent {
@@ -361,6 +363,13 @@ const AgentsPage = () => {
     ],
     [],
   );
+
+  const { data } = useSWR(
+  ["agent"],
+  () => agentService.getagents(),
+  { revalidateOnFocus: false }
+);
+
 
   // Constants
   const SPECIALTIES = useMemo(() => {
