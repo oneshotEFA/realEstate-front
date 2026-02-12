@@ -27,6 +27,7 @@
   "seoDescription": "High-end apartment in Addis Ababa city center featuring modern interiors and premium amenities.",
   "createdAt": "2026-01-20T14:10:00.000Z",
   "updatedAt": "2026-02-03T09:20:00.000Z",
+  "featured": true,
   "agent": {
     "id": "agent_102",
     "name": "Hanna Tesfaye",
