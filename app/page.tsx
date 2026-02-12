@@ -1,3 +1,6 @@
+"use client";
+import { Listing } from "@/lib/type/listing";
+import { listingService } from "@/lib/services/listings";
 import {
   ChevronRight,
   Home as HomeIcon,
@@ -20,10 +23,19 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+import useSWR from "swr";
 
 const Home = () => {
-  // Mock featured properties data
-  const featuredProperties = [
+  const { data: listing } = useSWR<Listing[]>(
+    ["lists"],
+    () => listingService.getFeaturedListings(),
+    {
+      revalidateOnFocus: false,
+    },
+  );
+  const featuredProperties = listing ?? [];
+  console.log("Featured Listings:", featuredProperties);
+  const featuredPropertiess = [
     {
       id: 1,
       image:
@@ -348,15 +360,15 @@ const Home = () => {
 
           {/* Property Cards Grid - Enhanced */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProperties.map((property) => (
+            {featuredProperties?.map((property) => (
               <div
-                key={property.id}
+                key={property.pid}
                 className="group relative bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
                 {/* Image with Overlay */}
                 <div className="relative h-56 overflow-hidden">
                   <img
-                    src={property.image}
+                    src={property.images[0]}
                     alt={property.type}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -377,7 +389,7 @@ const Home = () => {
                       className="fill-yellow-400 text-yellow-400"
                     />
                     <span className="text-white font-bold text-sm">
-                      {property.rating}
+                      {property.agentId}
                     </span>
                   </div>
 
@@ -398,7 +410,7 @@ const Home = () => {
                   </div>
 
                   <h3 className="text-lg font-bold text-foreground mb-4">
-                    {property.location}
+                    {property.address}
                   </h3>
 
                   {/* Property Details */}
@@ -409,7 +421,7 @@ const Home = () => {
                         className="text-foreground/40 mx-auto mb-1"
                       />
                       <span className="text-sm font-medium text-foreground">
-                        {property.beds} Beds
+                        {property.bedrooms} Beds
                       </span>
                     </div>
                     <div className="text-center">
@@ -418,7 +430,7 @@ const Home = () => {
                         className="text-foreground/40 mx-auto mb-1"
                       />
                       <span className="text-sm font-medium text-foreground">
-                        {property.size}
+                        {property.squareFeet}
                       </span>
                     </div>
                     <div className="text-center">
@@ -426,14 +438,14 @@ const Home = () => {
                         <span className="text-xs font-bold">B</span>
                       </div>
                       <span className="text-sm font-medium text-foreground">
-                        {property.baths} Baths
+                        {property.bathrooms} Baths
                       </span>
                     </div>
                   </div>
 
                   {/* CTA */}
                   <Link
-                    href={`/properties/${property.id}`}
+                    href={`/properties/${property.pid}`}
                     className="block w-full py-3 px-4 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all font-semibold text-center group/btn"
                   >
                     <span className="flex items-center justify-center gap-2">

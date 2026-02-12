@@ -1,5 +1,6 @@
 "use client";
 
+import { Listing, ListingStatus, ListingType } from "@/lib/type/listing";
 import { listingService } from "@/lib/services/listings";
 import {
   Search,
@@ -33,42 +34,6 @@ import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import useSWR from "swr";
 // Types based on your Prisma schema
-type ListingStatus = "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
-type ListingType = "PROPERTY" | "CAR" | "OTHER";
-
-interface Listing {
-  pid: string;
-  title: string;
-  slug: string;
-  description?: string;
-  price: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  squareFeet?: number;
-  lotSize?: number;
-  yearBuilt?: number;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  latitude?: number;
-  longitude?: number;
-  status: ListingStatus;
-  type: ListingType;
-  agentId: string;
-  images: string[];
-  inquiries: any[];
-  seoTitle?: string;
-  seoDescription?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  agent?: {
-    id: string;
-    name: string;
-    avatar?: string;
-    rating?: number;
-  };
-}
 
 const UniversalListingPage = () => {
   const itemsPerPageOptions = [8, 16, 24, 30];
@@ -817,7 +782,7 @@ const UniversalListingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen lg:py-10 md:py-7 py-5 bg-background">
       {/* Hero Section */}
       <section className="relative px-4 md:px-8 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-background to-secondary/5 -z-10" />

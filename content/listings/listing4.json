@@ -28,6 +28,7 @@
   "seoDescription": "Budget-friendly 2-bedroom house in Bishoftu, ideal for first-time homeowners.",
   "createdAt": "2026-01-10T11:00:00.000Z",
   "updatedAt": "2026-01-28T16:30:00.000Z",
+  "featured": false,
   "agent": {
     "id": "agent_103",
     "name": "Abel Girma",

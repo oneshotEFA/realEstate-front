@@ -1,5 +1,6 @@
 import {
   getAllContent,
+  getFilteredContent,
   getPaginatedContent,
 } from "@/lib/contentFetcher/filerReader";
 import { NextResponse } from "next/server";
@@ -9,7 +10,11 @@ export async function GET(req: Request) {
 
   const pageParam = searchParams.get("page");
   const limitParam = searchParams.get("limit");
-
+  const featured = searchParams.get("featured");
+  if (featured === "true") {
+    const data = getFilteredContent("listings", { featured: true });
+    return NextResponse.json(data);
+  }
   if (!pageParam && !limitParam) {
     const data = getAllContent("listings");
     return NextResponse.json(data);
