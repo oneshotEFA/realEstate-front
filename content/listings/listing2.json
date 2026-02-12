@@ -28,6 +28,7 @@
   "seoDescription": "Discover a modern 3-bedroom family house in Adama with a spacious layout and elegant design.",
   "createdAt": "2026-02-01T10:15:30.000Z",
   "updatedAt": "2026-02-05T08:45:10.000Z",
+  "featured": true,
   "agent": {
     "id": "agent_101",
     "name": "Samuel Bekele",

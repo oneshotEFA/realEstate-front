@@ -1,5 +1,6 @@
 "use client";
 
+import { Listing, ListingStatus, ListingType } from "@/lib/type/listing";
 import { listingService } from "@/lib/services/listings";
 import {
   Search,
@@ -16,24 +17,15 @@ import {
   ChevronRight,
   Home as HomeIcon,
   Car,
-  LucideCrosshair,
   ArrowRight,
   X,
   SlidersHorizontal,
-  Maximize2,
   DollarSign,
   Calendar,
-  Check,
   Sparkles,
   TrendingUp,
   Clock,
   Layers,
-  Hash,
-  CarFront,
-  Cpu,
-  BookOpen,
-  Music2,
-  Gamepad2,
   ChevronLeft,
   ChevronsLeft,
   ChevronsRight,
@@ -42,57 +34,24 @@ import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import useSWR from "swr";
 // Types based on your Prisma schema
-type ListingStatus = "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
-type ListingType = "PROPERTY" | "CAR" | "OTHER";
-
-interface Listing {
-  pid: string;
-  title: string;
-  slug: string;
-  description?: string;
-  price: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  squareFeet?: number;
-  lotSize?: number;
-  yearBuilt?: number;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  latitude?: number;
-  longitude?: number;
-  status: ListingStatus;
-  type: ListingType;
-  agentId: string;
-  images: string[];
-  inquiries: any[];
-  seoTitle?: string;
-  seoDescription?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  agent?: {
-    id: string;
-    name: string;
-    avatar?: string;
-    rating?: number;
-  };
-}
 
 const UniversalListingPage = () => {
+  const itemsPerPageOptions = [8, 16, 24, 30];
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const { data: listing } = useSWR<Listing[]>(
-    "listings",
-    () => listingService.getListings(),
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]); // Default items per page
+  const { data: listingss } = useSWR<{
+    data: Listing[];
+    meta: { total: number; page: number; limit: number; totalPage: number };
+  }>(
+    ["listings", currentPage, itemsPerPage],
+    () => listingService.getListingByPage(currentPage, itemsPerPage),
     {
       revalidateOnFocus: false,
     },
   );
-  const listings = listing ?? [];
-
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Default items per page
+  const listings: Listing[] = listingss?.data ?? [];
+  const meta = listingss?.meta ?? { total: 0, page: 0, limit: 0, totalPage: 0 };
 
   const [filters, setFilters] = useState({
     listingType: "all" as ListingType | "all",
@@ -113,7 +72,6 @@ const UniversalListingPage = () => {
     // Other filters
     searchQuery: "",
   });
-
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState<ListingType | "all">(
@@ -140,7 +98,6 @@ const UniversalListingPage = () => {
     },
   ];
 
-  // Price presets
   const pricePresets = [
     { label: "Under $10K", min: 0, max: 10000 },
     { label: "$10K - $50K", min: 10000, max: 50000 },
@@ -172,12 +129,11 @@ const UniversalListingPage = () => {
   ];
 
   // Items per page options
-  const itemsPerPageOptions = [6, 12, 24, 48, 96];
 
   // City options (unique cities from listings)
   const cityOptions = [
     "all",
-    ...Array.from(new Set(listings?.map((l) => l.city))),
+    ...Array.from(new Set(listings?.map((l) => l?.city))),
   ];
 
   // Filter listings
@@ -292,20 +248,15 @@ const UniversalListingPage = () => {
   }, [filters, listings]);
 
   // Pagination calculations
-  const totalItems = filteredListings.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalItems = meta.total;
+  const totalPages = meta.totalPage;
 
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [filters, itemsPerPage]);
 
-  // Get current page items
-  const currentItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredListings.slice(startIndex, endIndex);
-  }, [filteredListings, currentPage, itemsPerPage]);
+  const currentItems = filteredListings;
 
   // Handle category change
   const handleCategoryChange = (category: ListingType | "all") => {
@@ -349,7 +300,7 @@ const UniversalListingPage = () => {
 
   // Pagination component
   const Pagination = () => {
-    const maxVisiblePages = 5;
+    const maxVisiblePages = meta?.totalPage;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
@@ -418,7 +369,7 @@ const UniversalListingPage = () => {
               <>
                 <button
                   onClick={() => setCurrentPage(1)}
-                  className="w-10 h-10 rounded-lg text-sm font-medium hover:bg-primary/5"
+                  className="w-10 h-10 rounded-lg text-sm  font-medium hover:bg-primary/5"
                 >
                   1
                 </button>
@@ -459,9 +410,7 @@ const UniversalListingPage = () => {
 
           {/* Next page */}
           <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-            }
+            onClick={() => setCurrentPage((prev) => prev + 1)}
             disabled={currentPage === totalPages}
             className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
@@ -833,7 +782,7 @@ const UniversalListingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen lg:py-10 md:py-7 py-5 bg-background">
       {/* Hero Section */}
       <section className="relative px-4 md:px-8 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-background to-secondary/5 -z-10" />

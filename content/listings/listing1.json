@@ -28,6 +28,7 @@
   "seoDescription": "Explore this modern 3-bedroom house in Adama featuring spacious rooms, modern design, and a great location.",
   "createdAt": "2026-02-01T10:15:30.000Z",
   "updatedAt": "2026-02-05T08:45:10.000Z",
+  "featured": false,
   "agent": {
     "id": "agent_101",
     "name": "Samuel Bekele",
