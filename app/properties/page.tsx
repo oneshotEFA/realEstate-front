@@ -73,9 +73,7 @@ const UniversalListingPage = () => {
       revalidateOnFocus: false,
     },
   );
-  console.log("Current filters in SWR key:", listingss?.data);
   const listings: Listing[] = listingss?.data ?? [];
-  console.log("Fetched listings:", listings);
   const meta = listingss?.meta ?? { total: 0, page: 0, limit: 0, totalPage: 0 };
 
   const categories = [

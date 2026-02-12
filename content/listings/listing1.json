@@ -1,38 +1,79 @@
 {
   "pid": "prop_001",
-  "title": "Modern 3-Bedroom Family Home",
-  "slug": "modern-3-bedroom-family-home",
-  "description": "A modern and spacious family home located in a quiet residential area, close to schools and shopping centers.",
-  "price": 185000,
-  "bedrooms": 3,
-  "bathrooms": 2,
-  "squareFeet": 1650,
-  "lotSize": 420,
-  "yearBuilt": 2019,
-  "address": "123 Sunrise Avenue",
-  "city": "Adama",
-  "state": "Oromia",
-  "zip": "12345",
-  "latitude": 8.5401,
-  "longitude": 39.2695,
+  "title": "Modern Luxury Villa with Ocean Views",
+  "slug": "modern-luxury-villa-ocean-views",
+  "description": "Stunning contemporary villa featuring breathtaking ocean views, premium finishes, and state-of-the-art smart home technology.",
+  "price": 3850000,
+  "bedrooms": 5,
+  "bathrooms": 4.5,
+  "squareFeet": 5200,
+  "lotSize": 0.75,
+  "yearBuilt": 2023,
+  "address": "123 Oceanview Drive",
+  "city": "Malibu",
+  "state": "CA",
+  "zip": "90265",
+  "latitude": 34.0259,
+  "longitude": -118.7798,
   "status": "ACTIVE",
   "type": "PROPERTY",
-  "agentId": "agent_101",
+  "agentId": "agent_1",
+
   "images": [
-    "/images/properties/prop_001_1.jpg",
-    "/images/properties/prop_001_2.jpg",
-    "/images/properties/prop_001_3.jpg"
+    "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&h=800&fit=crop",
+    "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&h=800&fit=crop",
+    "https://images.unsplash.com/photo-1616587226154-91eab0a51dc7?w=1200&h=800&fit=crop"
   ],
+
   "inquiries": [],
-  "seoTitle": "Modern 3-Bedroom House for Sale in Adama",
-  "seoDescription": "Explore this modern 3-bedroom house in Adama featuring spacious rooms, modern design, and a great location.",
+  "seoTitle": "Modern Luxury Villa with Ocean Views",
+  "seoDescription": "Explore this modern ocean-view villa featuring smart home technology.",
   "createdAt": "2026-02-01T10:15:30.000Z",
   "updatedAt": "2026-02-05T08:45:10.000Z",
-  "featured": false,
+  "featured": true,
+
+  "propertyType": "Single Family Home",
+  "parkingSpots": 3,
+  "floorNumber": 2,
+  "totalFloors": 2,
+  "hoaFee": 450,
+  "propertyTax": 38500,
+  "heatingType": "Central",
+  "coolingType": "Central AC",
+  "lastRenovated": 2023,
+
+  "features": [
+    "Ocean View",
+    "Smart Home",
+    "Wine Cellar",
+    "Home Theater",
+    "Pool",
+    "Spa",
+    "Solar Panels"
+  ],
+
+  "amenities": [
+    "Gym",
+    "Security System",
+    "EV Charging",
+    "Hardwood Floors",
+    "Fireplace"
+  ],
+
   "agent": {
-    "id": "agent_101",
-    "name": "Samuel Bekele",
-    "avatar": "/images/agents/samuel.jpg",
-    "rating": 4.7
+    "id": "agent_1",
+    "name": "Sarah Johnson",
+    "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop",
+    "rating": 4.9,
+    "reviews": 128,
+    "phone": "+1 (555) 123-4567",
+    "email": "sarah@ayelehomes.com",
+    "licenseId": "CA-1234567",
+    "yearsExperience": 15,
+    "specialties": [
+      "Luxury Homes",
+      "Waterfront Properties",
+      "Investment Properties"
+    ]
   }
 }
