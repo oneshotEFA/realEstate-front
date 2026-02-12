@@ -23,28 +23,54 @@ type AdvancedFilter<T> = {
     | { gte?: number; lte?: number }
     | { contains?: string };
 };
+type CacheEntry<T> = {
+  data: T[];
+  lastModified: number;
+};
 
-// Simple in-memory cache to avoid redundant file reads
-const contentCache = new Map<string, unknown[]>();
+const contentCache = new Map<string, CacheEntry<any>>();
 
-export function getAllContent<T = any>(folder: string): T[] {
-  if (contentCache.has(folder)) {
-    return contentCache.get(folder) as T[];
-  }
+export function getAllContent<T = unknown>(folder: string): T[] {
   const dirPath = path.join(process.cwd(), "content", folder);
 
   if (!fs.existsSync(dirPath)) {
     throw new Error(`Content folder not found: ${dirPath}`);
   }
-  const files = fs.readdirSync(dirPath);
-  const data = files
-    .filter((file) => file.endsWith(".json"))
-    .map((file) => {
-      const filePath = path.join(dirPath, file);
-      const raw = fs.readFileSync(filePath, "utf-8");
-      return JSON.parse(raw) as T;
-    });
-  contentCache.set(folder, data);
+
+  const files = fs
+    .readdirSync(dirPath)
+    .filter((file) => file.endsWith(".json"));
+
+  let latestMTime = 0;
+
+  for (const file of files) {
+    const filePath = path.join(dirPath, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.mtimeMs > latestMTime) {
+      latestMTime = stat.mtimeMs;
+    }
+  }
+
+  const cached = contentCache.get(folder);
+
+  // ✅ If cache exists AND nothing changed → return cached
+  if (cached && cached.lastModified === latestMTime) {
+    return cached.data as T[];
+  }
+
+  // 🔥 Re-read files only when modified
+  const data = files.map((file) => {
+    const filePath = path.join(dirPath, file);
+    const raw = fs.readFileSync(filePath, "utf-8");
+    return JSON.parse(raw) as T;
+  });
+
+  contentCache.set(folder, {
+    data,
+    lastModified: latestMTime,
+  });
+
   return data;
 }
 
@@ -72,7 +98,6 @@ export function getPaginatedContent<T>(
   let items = getAllContent<T>(folder);
 
   if (filters && Object.keys(filters).length) {
-    console.log("Applying filters:", filters);
     items = applyFilters(items, filters);
   }
 
