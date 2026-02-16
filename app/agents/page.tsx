@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { agentService } from "@/lib/services/agents";
+import { agentService } from '@/lib/services/agents';
 import {
   Search,
   Filter,
@@ -36,10 +36,10 @@ import {
   FileText,
   Map,
   BadgeCheck,
-} from "lucide-react";
-import Link from "next/link";
-import { useState, useMemo } from "react";
-import useSWR from "swr";
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState, useMemo } from 'react';
+import useSWR from 'swr';
 
 // Types based on your Prisma schema
 interface Agent {
@@ -86,49 +86,49 @@ interface Agent {
 }
 
 const AgentsPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSpecialty, setSelectedSpecialty] = useState("all");
-  const [selectedExperience, setSelectedExperience] = useState("all");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSpecialty, setSelectedSpecialty] = useState('all');
+  const [selectedExperience, setSelectedExperience] = useState('all');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [favoriteAgents, setFavoriteAgents] = useState<string[]>([]);
 
   // Agent data based on your schema
-  const agents: Agent[] = useMemo(
+  const agens: Agent[] = useMemo(
     () => [
       {
-        id: "agent_1",
-        userId: "user_1",
-        bio: "With over 15 years of experience in luxury real estate, Sarah specializes in waterfront properties and investment opportunities. Her attention to detail and market knowledge ensures the best outcomes for her clients.",
-        licenseId: "CA-1234567",
+        id: 'agent_1',
+        userId: 'user_1',
+        bio: 'With over 15 years of experience in luxury real estate, Sarah specializes in waterfront properties and investment opportunities. Her attention to detail and market knowledge ensures the best outcomes for her clients.',
+        licenseId: 'CA-1234567',
         yearsExperience: 15,
         specialties: [
-          "Luxury Homes",
-          "Waterfront Properties",
-          "Investment Properties",
+          'Luxury Homes',
+          'Waterfront Properties',
+          'Investment Properties',
         ],
         listings: [],
-        createdAt: new Date("2018-03-15"),
-        updatedAt: new Date("2024-01-20"),
+        createdAt: new Date('2018-03-15'),
+        updatedAt: new Date('2024-01-20'),
         user: {
-          id: "user_1",
-          name: "Sarah Johnson",
-          email: "sarah@ayelehomes.com",
-          phone: "+1 (555) 123-4567",
+          id: 'user_1',
+          name: 'Sarah Johnson',
+          email: 'sarah@ayelehomes.com',
+          phone: '+1 (555) 123-4567',
           avatar:
-            "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop",
-          address: "123 Main St",
-          city: "New York",
-          state: "NY",
-          zip: "10001",
+            'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop',
+          address: '123 Main St',
+          city: 'New York',
+          state: 'NY',
+          zip: '10001',
           rating: 4.9,
           reviews: 128,
-          website: "www.sarahjohnson.com",
+          website: 'www.sarahjohnson.com',
           social: {
-            linkedin: "sarahjohnson",
-            twitter: "sarah_realtor",
-            facebook: "sarahjohnsonre",
-            instagram: "sarahjohnson_homes",
+            linkedin: 'sarahjohnson',
+            twitter: 'sarah_realtor',
+            facebook: 'sarahjohnsonre',
+            instagram: 'sarahjohnson_homes',
           },
         },
         stats: {
@@ -143,38 +143,38 @@ const AgentsPage = () => {
         available: true,
       },
       {
-        id: "agent_2",
-        userId: "user_2",
-        bio: "Michael is a commercial real estate specialist with extensive experience in development projects and investment properties. His analytical approach and market insights provide exceptional value to investors.",
-        licenseId: "CA-2345678",
+        id: 'agent_2',
+        userId: 'user_2',
+        bio: 'Michael is a commercial real estate specialist with extensive experience in development projects and investment properties. His analytical approach and market insights provide exceptional value to investors.',
+        licenseId: 'CA-2345678',
         yearsExperience: 12,
         specialties: [
-          "Commercial Properties",
-          "Development Land",
-          "Office Spaces",
+          'Commercial Properties',
+          'Development Land',
+          'Office Spaces',
         ],
         listings: [],
-        createdAt: new Date("2019-06-22"),
-        updatedAt: new Date("2024-01-18"),
+        createdAt: new Date('2019-06-22'),
+        updatedAt: new Date('2024-01-18'),
         user: {
-          id: "user_2",
-          name: "Michael Chen",
-          email: "michael@ayelehomes.com",
-          phone: "+1 (555) 234-5678",
+          id: 'user_2',
+          name: 'Michael Chen',
+          email: 'michael@ayelehomes.com',
+          phone: '+1 (555) 234-5678',
           avatar:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-          address: "456 Oak Avenue",
-          city: "Los Angeles",
-          state: "CA",
-          zip: "90001",
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
+          address: '456 Oak Avenue',
+          city: 'Los Angeles',
+          state: 'CA',
+          zip: '90001',
           rating: 4.8,
           reviews: 96,
-          website: "www.michaelchenrealty.com",
+          website: 'www.michaelchenrealty.com',
           social: {
-            linkedin: "michaelchenre",
-            twitter: "mchen_realty",
-            facebook: "michaelchenproperties",
-            instagram: "michaelchen_commercial",
+            linkedin: 'michaelchenre',
+            twitter: 'mchen_realty',
+            facebook: 'michaelchenproperties',
+            instagram: 'michaelchen_commercial',
           },
         },
         stats: {
@@ -189,34 +189,34 @@ const AgentsPage = () => {
         available: true,
       },
       {
-        id: "agent_3",
-        userId: "user_3",
-        bio: "Emma specializes in helping families find their perfect homes. With her patient approach and deep knowledge of school districts and neighborhoods, she makes the home-buying process smooth and enjoyable.",
-        licenseId: "CA-3456789",
+        id: 'agent_3',
+        userId: 'user_3',
+        bio: 'Emma specializes in helping families find their perfect homes. With her patient approach and deep knowledge of school districts and neighborhoods, she makes the home-buying process smooth and enjoyable.',
+        licenseId: 'CA-3456789',
         yearsExperience: 10,
-        specialties: ["First-time Buyers", "Family Homes", "Relocation"],
+        specialties: ['First-time Buyers', 'Family Homes', 'Relocation'],
         listings: [],
-        createdAt: new Date("2020-01-10"),
-        updatedAt: new Date("2024-01-15"),
+        createdAt: new Date('2020-01-10'),
+        updatedAt: new Date('2024-01-15'),
         user: {
-          id: "user_3",
-          name: "Emma Wilson",
-          email: "emma@ayelehomes.com",
-          phone: "+1 (555) 345-6789",
+          id: 'user_3',
+          name: 'Emma Wilson',
+          email: 'emma@ayelehomes.com',
+          phone: '+1 (555) 345-6789',
           avatar:
-            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
-          address: "789 Pine Road",
-          city: "Chicago",
-          state: "IL",
-          zip: "60601",
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
+          address: '789 Pine Road',
+          city: 'Chicago',
+          state: 'IL',
+          zip: '60601',
           rating: 4.9,
           reviews: 142,
-          website: "www.emmawilsonhomes.com",
+          website: 'www.emmawilsonhomes.com',
           social: {
-            linkedin: "emmawilsonre",
-            twitter: "emma_homes",
-            facebook: "emmawilsonrealestate",
-            instagram: "emmawilson_homes",
+            linkedin: 'emmawilsonre',
+            twitter: 'emma_homes',
+            facebook: 'emmawilsonrealestate',
+            instagram: 'emmawilson_homes',
           },
         },
         stats: {
@@ -231,38 +231,38 @@ const AgentsPage = () => {
         available: true,
       },
       {
-        id: "agent_4",
-        userId: "user_4",
-        bio: "David handles the most exclusive properties in the market. His discreet service and extensive network of high-net-worth individuals make him the go-to expert for luxury real estate.",
-        licenseId: "CA-4567890",
+        id: 'agent_4',
+        userId: 'user_4',
+        bio: 'David handles the most exclusive properties in the market. His discreet service and extensive network of high-net-worth individuals make him the go-to expert for luxury real estate.',
+        licenseId: 'CA-4567890',
         yearsExperience: 18,
         specialties: [
-          "Penthouse Apartments",
-          "Estate Properties",
-          "Celebrity Clients",
+          'Penthouse Apartments',
+          'Estate Properties',
+          'Celebrity Clients',
         ],
         listings: [],
-        createdAt: new Date("2015-11-05"),
-        updatedAt: new Date("2024-01-10"),
+        createdAt: new Date('2015-11-05'),
+        updatedAt: new Date('2024-01-10'),
         user: {
-          id: "user_4",
-          name: "David Miller",
-          email: "david@ayelehomes.com",
-          phone: "+1 (555) 456-7890",
+          id: 'user_4',
+          name: 'David Miller',
+          email: 'david@ayelehomes.com',
+          phone: '+1 (555) 456-7890',
           avatar:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-          address: "101 Ocean Drive",
-          city: "Miami",
-          state: "FL",
-          zip: "33101",
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+          address: '101 Ocean Drive',
+          city: 'Miami',
+          state: 'FL',
+          zip: '33101',
           rating: 5.0,
           reviews: 87,
-          website: "www.davidmillerluxury.com",
+          website: 'www.davidmillerluxury.com',
           social: {
-            linkedin: "davidmillerluxury",
-            twitter: "dmillerluxury",
-            facebook: "davidmillerluxuryproperties",
-            instagram: "davidmiller_luxury",
+            linkedin: 'davidmillerluxury',
+            twitter: 'dmillerluxury',
+            facebook: 'davidmillerluxuryproperties',
+            instagram: 'davidmiller_luxury',
           },
         },
         stats: {
@@ -277,34 +277,34 @@ const AgentsPage = () => {
         available: true,
       },
       {
-        id: "agent_5",
-        userId: "user_5",
-        bio: "Olivia focuses on investment properties and rental portfolios. Her financial analysis skills and market timing expertise help investors maximize their returns in real estate.",
-        licenseId: "CA-5678901",
+        id: 'agent_5',
+        userId: 'user_5',
+        bio: 'Olivia focuses on investment properties and rental portfolios. Her financial analysis skills and market timing expertise help investors maximize their returns in real estate.',
+        licenseId: 'CA-5678901',
         yearsExperience: 8,
-        specialties: ["Rental Properties", "Multi-family Units", "REITs"],
+        specialties: ['Rental Properties', 'Multi-family Units', 'REITs'],
         listings: [],
-        createdAt: new Date("2021-08-30"),
-        updatedAt: new Date("2024-01-05"),
+        createdAt: new Date('2021-08-30'),
+        updatedAt: new Date('2024-01-05'),
         user: {
-          id: "user_5",
-          name: "Olivia Martinez",
-          email: "olivia@ayelehomes.com",
-          phone: "+1 (555) 567-8901",
+          id: 'user_5',
+          name: 'Olivia Martinez',
+          email: 'olivia@ayelehomes.com',
+          phone: '+1 (555) 567-8901',
           avatar:
-            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop",
-          address: "202 Central Ave",
-          city: "San Francisco",
-          state: "CA",
-          zip: "94101",
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop',
+          address: '202 Central Ave',
+          city: 'San Francisco',
+          state: 'CA',
+          zip: '94101',
           rating: 4.7,
           reviews: 73,
-          website: "www.oliviamartinezinvest.com",
+          website: 'www.oliviamartinezinvest.com',
           social: {
-            linkedin: "oliviamartinezinvest",
-            twitter: "olivia_invest",
-            facebook: "oliviamartinezinvestment",
-            instagram: "olivia_investments",
+            linkedin: 'oliviamartinezinvest',
+            twitter: 'olivia_invest',
+            facebook: 'oliviamartinezinvestment',
+            instagram: 'olivia_investments',
           },
         },
         stats: {
@@ -319,34 +319,34 @@ const AgentsPage = () => {
         available: false,
       },
       {
-        id: "agent_6",
-        userId: "user_6",
-        bio: "James specializes in rural and land properties. His deep understanding of zoning regulations and agricultural value makes him the expert for land investments and country living.",
-        licenseId: "CA-6789012",
+        id: 'agent_6',
+        userId: 'user_6',
+        bio: 'James specializes in rural and land properties. His deep understanding of zoning regulations and agricultural value makes him the expert for land investments and country living.',
+        licenseId: 'CA-6789012',
         yearsExperience: 14,
-        specialties: ["Farmland", "Ranch Properties", "Development Land"],
+        specialties: ['Farmland', 'Ranch Properties', 'Development Land'],
         listings: [],
-        createdAt: new Date("2017-04-12"),
-        updatedAt: new Date("2024-01-03"),
+        createdAt: new Date('2017-04-12'),
+        updatedAt: new Date('2024-01-03'),
         user: {
-          id: "user_6",
-          name: "James Wilson",
-          email: "james@ayelehomes.com",
-          phone: "+1 (555) 678-9012",
+          id: 'user_6',
+          name: 'James Wilson',
+          email: 'james@ayelehomes.com',
+          phone: '+1 (555) 678-9012',
           avatar:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-          address: "303 Maple Street",
-          city: "Austin",
-          state: "TX",
-          zip: "73301",
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
+          address: '303 Maple Street',
+          city: 'Austin',
+          state: 'TX',
+          zip: '73301',
           rating: 4.8,
           reviews: 64,
-          website: "www.jameswilsonland.com",
+          website: 'www.jameswilsonland.com',
           social: {
-            linkedin: "jameswilsonland",
-            twitter: "jwilson_land",
-            facebook: "jameswilsonruralproperties",
-            instagram: "jameswilson_land",
+            linkedin: 'jameswilsonland',
+            twitter: 'jwilson_land',
+            facebook: 'jameswilsonruralproperties',
+            instagram: 'jameswilson_land',
           },
         },
         stats: {
@@ -361,28 +361,26 @@ const AgentsPage = () => {
         available: true,
       },
     ],
-    [],
+    []
   );
 
-  const { data } = useSWR(
-  ["agent"],
-  () => agentService.getagents(),
-  { revalidateOnFocus: false }
-);
-
-
+  const { data } = useSWR<Agent[]>(['agent'], () => agentService.getagents(), {
+    revalidateOnFocus: false,
+  });
+  const agents: Agent[] = data ?? [];
+  console.log(agents[0]?.user?.name);
   // Constants
   const SPECIALTIES = useMemo(() => {
-    const allSpecialties = agents.flatMap((agent) => agent.specialties);
-    return ["all", ...Array.from(new Set(allSpecialties))];
+    const allSpecialties = agents.flatMap(agent => agent.specialties);
+    return ['all', ...Array.from(new Set(allSpecialties))];
   }, [agents]);
 
   const EXPERIENCE_LEVELS = [
-    { value: "all", label: "All Experience" },
-    { value: "0-5", label: "0-5 Years" },
-    { value: "5-10", label: "5-10 Years" },
-    { value: "10-15", label: "10-15 Years" },
-    { value: "15+", label: "15+ Years" },
+    { value: 'all', label: 'All Experience' },
+    { value: '0-5', label: '0-5 Years' },
+    { value: '5-10', label: '5-10 Years' },
+    { value: '10-15', label: '10-15 Years' },
+    { value: '15+', label: '15+ Years' },
   ];
 
   // Stats calculation
@@ -390,30 +388,30 @@ const AgentsPage = () => {
     () => [
       {
         value: agents.length,
-        label: "Expert Agents",
+        label: 'Expert Agents',
         icon: Users,
-        description: "Certified professionals",
+        description: 'Certified professionals',
       },
       {
         value: `${Math.round(agents.reduce((sum, agent) => sum + (agent.yearsExperience || 0), 0) / agents.length)}+`,
-        label: "Avg Years Experience",
+        label: 'Avg Years Experience',
         icon: Award,
-        description: "Industry expertise",
+        description: 'Industry expertise',
       },
       {
-        value: "98%",
-        label: "Client Satisfaction",
+        value: '98%',
+        label: 'Client Satisfaction',
         icon: Star,
-        description: "Based on reviews",
+        description: 'Based on reviews',
       },
       {
         value: `$${Math.round(agents.reduce((sum, agent) => sum + (agent.stats?.totalVolume || 0), 0) / 1000000)}M+`,
-        label: "Total Volume Sold",
+        label: 'Total Volume Sold',
         icon: DollarSign,
-        description: "Combined sales",
+        description: 'Combined sales',
       },
     ],
-    [agents],
+    [agents]
   );
 
   // Filter agents
@@ -424,43 +422,43 @@ const AgentsPage = () => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
-        (agent) =>
+        agent =>
           agent.user.name.toLowerCase().includes(query) ||
           agent.user.email.toLowerCase().includes(query) ||
           agent.bio?.toLowerCase().includes(query) ||
-          agent.specialties.some((s) => s.toLowerCase().includes(query)),
+          agent.specialties.some(s => s.toLowerCase().includes(query))
       );
     }
 
     // Specialty filter
-    if (selectedSpecialty !== "all") {
-      result = result.filter((agent) =>
-        agent.specialties.includes(selectedSpecialty),
+    if (selectedSpecialty !== 'all') {
+      result = result.filter(agent =>
+        agent.specialties.includes(selectedSpecialty)
       );
     }
 
     // Experience filter
-    if (selectedExperience !== "all") {
+    if (selectedExperience !== 'all') {
       switch (selectedExperience) {
-        case "0-5":
-          result = result.filter((agent) => (agent.yearsExperience || 0) < 5);
+        case '0-5':
+          result = result.filter(agent => (agent.yearsExperience || 0) < 5);
           break;
-        case "5-10":
+        case '5-10':
           result = result.filter(
-            (agent) =>
+            agent =>
               (agent.yearsExperience || 0) >= 5 &&
-              (agent.yearsExperience || 0) < 10,
+              (agent.yearsExperience || 0) < 10
           );
           break;
-        case "10-15":
+        case '10-15':
           result = result.filter(
-            (agent) =>
+            agent =>
               (agent.yearsExperience || 0) >= 10 &&
-              (agent.yearsExperience || 0) < 15,
+              (agent.yearsExperience || 0) < 15
           );
           break;
-        case "15+":
-          result = result.filter((agent) => (agent.yearsExperience || 0) >= 15);
+        case '15+':
+          result = result.filter(agent => (agent.yearsExperience || 0) >= 15);
           break;
       }
     }
@@ -470,15 +468,15 @@ const AgentsPage = () => {
 
   // Handlers
   const toggleFavorite = (id: string) => {
-    setFavoriteAgents((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id],
+    setFavoriteAgents(prev =>
+      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
     );
   };
 
   const handleResetFilters = () => {
-    setSearchQuery("");
-    setSelectedSpecialty("all");
-    setSelectedExperience("all");
+    setSearchQuery('');
+    setSelectedSpecialty('all');
+    setSelectedExperience('all');
   };
 
   const formatPrice = (price: number) => {
@@ -522,17 +520,17 @@ const AgentsPage = () => {
           Specialties
         </h4>
         <div className="flex flex-wrap gap-2">
-          {SPECIALTIES.map((specialty) => (
+          {SPECIALTIES.map(specialty => (
             <button
               key={specialty}
               onClick={() => setSelectedSpecialty(specialty)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                 selectedSpecialty === specialty
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-primary/5 text-foreground hover:bg-primary/10"
+                  ? 'bg-primary text-primary-foreground shadow-md'
+                  : 'bg-primary/5 text-foreground hover:bg-primary/10'
               }`}
             >
-              {specialty === "all" ? "All Specialties" : specialty}
+              {specialty === 'all' ? 'All Specialties' : specialty}
             </button>
           ))}
         </div>
@@ -545,14 +543,14 @@ const AgentsPage = () => {
           Experience Level
         </h4>
         <div className="space-y-2">
-          {EXPERIENCE_LEVELS.map((level) => (
+          {EXPERIENCE_LEVELS.map(level => (
             <button
               key={level.value}
               onClick={() => setSelectedExperience(level.value)}
               className={`w-full p-3 rounded-xl border transition-all flex items-center justify-between ${
                 selectedExperience === level.value
-                  ? "bg-primary/10 border-primary text-primary"
-                  : "border-border hover:border-primary/50"
+                  ? 'bg-primary/10 border-primary text-primary'
+                  : 'border-border hover:border-primary/50'
               }`}
             >
               <span className="font-medium">{level.label}</span>
@@ -578,8 +576,8 @@ const AgentsPage = () => {
               {Math.round(
                 agents.reduce(
                   (sum, agent) => sum + (agent.yearsExperience || 0),
-                  0,
-                ) / agents.length,
+                  0
+                ) / agents.length
               )}
               + years
             </span>
@@ -589,7 +587,7 @@ const AgentsPage = () => {
             <span className="font-bold">
               {agents.reduce(
                 (sum, agent) => sum + (agent.stats?.activeListings || 0),
-                0,
+                0
               )}
             </span>
           </div>
@@ -602,15 +600,13 @@ const AgentsPage = () => {
   const ActiveFilters = () => {
     const activeFilters = [];
 
-    if (selectedSpecialty !== "all") {
+    if (selectedSpecialty !== 'all') {
       activeFilters.push(selectedSpecialty);
     }
 
-    if (selectedExperience !== "all") {
-      const level = EXPERIENCE_LEVELS.find(
-        (l) => l.value === selectedExperience,
-      );
-      activeFilters.push(level?.label || "");
+    if (selectedExperience !== 'all') {
+      const level = EXPERIENCE_LEVELS.find(l => l.value === selectedExperience);
+      activeFilters.push(level?.label || '');
     }
 
     if (activeFilters.length === 0) return null;
@@ -626,9 +622,9 @@ const AgentsPage = () => {
             {filter}
             <button
               onClick={() => {
-                if (filter === selectedSpecialty) setSelectedSpecialty("all");
-                if (EXPERIENCE_LEVELS.some((l) => l.label === filter))
-                  setSelectedExperience("all");
+                if (filter === selectedSpecialty) setSelectedSpecialty('all');
+                if (EXPERIENCE_LEVELS.some(l => l.label === filter))
+                  setSelectedExperience('all');
               }}
               className="hover:text-primary/80 transition-colors"
             >
@@ -659,11 +655,11 @@ const AgentsPage = () => {
               <Award size={14} /> Certified Professionals
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Meet Our{" "}
+              Meet Our{' '}
               <span className="relative">
                 <span className="text-primary">Expert</span>
                 <div className="absolute -bottom-2 left-0 right-0 h-1 bg-linear-to-r from-primary to-secondary rounded-full" />
-              </span>{" "}
+              </span>{' '}
               Agents
             </h1>
             <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto">
@@ -683,13 +679,13 @@ const AgentsPage = () => {
                     <input
                       type="text"
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={e => setSearchQuery(e.target.value)}
                       placeholder="Search by name, specialty, or license..."
                       className="flex-1 outline-none text-foreground placeholder:text-foreground/40 bg-transparent"
                     />
                     {searchQuery && (
                       <button
-                        onClick={() => setSearchQuery("")}
+                        onClick={() => setSearchQuery('')}
                         className="p-1 hover:bg-primary/10 rounded transition-colors"
                       >
                         <X size={18} className="text-foreground/40" />
@@ -720,21 +716,21 @@ const AgentsPage = () => {
                   </span>
                   <div className="flex items-center gap-1 bg-white border border-border rounded-xl p-1 shadow-sm">
                     <button
-                      onClick={() => setViewMode("grid")}
+                      onClick={() => setViewMode('grid')}
                       className={`p-2.5 rounded-lg transition-all ${
-                        viewMode === "grid"
-                          ? "bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md"
-                          : "hover:bg-primary/10 text-foreground/60"
+                        viewMode === 'grid'
+                          ? 'bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md'
+                          : 'hover:bg-primary/10 text-foreground/60'
                       }`}
                     >
                       <Users size={20} />
                     </button>
                     <button
-                      onClick={() => setViewMode("list")}
+                      onClick={() => setViewMode('list')}
                       className={`p-2.5 rounded-lg transition-all ${
-                        viewMode === "list"
-                          ? "bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md"
-                          : "hover:bg-primary/10 text-foreground/60"
+                        viewMode === 'list'
+                          ? 'bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md'
+                          : 'hover:bg-primary/10 text-foreground/60'
                       }`}
                     >
                       <List size={20} />
@@ -822,24 +818,24 @@ const AgentsPage = () => {
                 <>
                   <div
                     className={
-                      viewMode === "grid"
-                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                        : "space-y-6"
+                      viewMode === 'grid'
+                        ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                        : 'space-y-6'
                     }
                   >
-                    {filteredAgents.map((agent) => (
+                    {filteredAgents.map(agent => (
                       <div
                         key={agent.id}
                         className={`group bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 ${
-                          viewMode === "list"
-                            ? "flex flex-col lg:flex-row"
-                            : "hover:-translate-y-2"
+                          viewMode === 'list'
+                            ? 'flex flex-col lg:flex-row'
+                            : 'hover:-translate-y-2'
                         }`}
                       >
                         {/* Agent Header with Avatar */}
                         <div
                           className={`relative p-6 ${
-                            viewMode === "list" ? "lg:w-64 shrink-0" : ""
+                            viewMode === 'list' ? 'lg:w-64 shrink-0' : ''
                           }`}
                         >
                           <div className="relative">
@@ -848,25 +844,25 @@ const AgentsPage = () => {
                               <img
                                 src={
                                   agent.user.avatar ||
-                                  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop"
+                                  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop'
                                 }
                                 alt={agent.user.name}
                                 className={`rounded-2xl border-4 border-white shadow-lg ${
-                                  viewMode === "list"
-                                    ? "w-48 h-48"
-                                    : "w-32 h-32 mx-auto"
+                                  viewMode === 'list'
+                                    ? 'w-48 h-48'
+                                    : 'w-32 h-32 mx-auto'
                                 }`}
                                 loading="lazy"
-                                width={viewMode === "list" ? 192 : 128}
-                                height={viewMode === "list" ? 192 : 128}
+                                width={viewMode === 'list' ? 192 : 128}
+                                height={viewMode === 'list' ? 192 : 128}
                               />
 
                               {/* Status Indicator */}
                               <div
                                 className={`absolute bottom-2 right-2 w-4 h-4 rounded-full border-2 border-white ${
                                   agent.available
-                                    ? "bg-green-500"
-                                    : "bg-red-500"
+                                    ? 'bg-green-500'
+                                    : 'bg-red-500'
                                 }`}
                               />
 
@@ -875,8 +871,8 @@ const AgentsPage = () => {
                                 onClick={() => toggleFavorite(agent.id)}
                                 className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-sm transition-all ${
                                   favoriteAgents.includes(agent.id)
-                                    ? "bg-red-500/20 text-red-500"
-                                    : "bg-white/20 text-white hover:bg-white/30"
+                                    ? 'bg-red-500/20 text-red-500'
+                                    : 'bg-white/20 text-white hover:bg-white/30'
                                 }`}
                                 aria-label={
                                   favoriteAgents.includes(agent.id)
@@ -888,8 +884,8 @@ const AgentsPage = () => {
                                   size={18}
                                   className={
                                     favoriteAgents.includes(agent.id)
-                                      ? "fill-red-500"
-                                      : ""
+                                      ? 'fill-red-500'
+                                      : ''
                                   }
                                 />
                               </button>
@@ -912,7 +908,7 @@ const AgentsPage = () => {
 
                         {/* Agent Details */}
                         <div
-                          className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}
+                          className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}
                         >
                           {/* Header */}
                           <div className="mb-4">
@@ -924,7 +920,7 @@ const AgentsPage = () => {
                                 <div className="flex items-center gap-2 mb-2">
                                   <span className="text-sm font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded">
                                     {formatExperience(
-                                      agent.yearsExperience || 0,
+                                      agent.yearsExperience || 0
                                     )}
                                   </span>
                                   {agent.featured && (
@@ -959,7 +955,7 @@ const AgentsPage = () => {
                           </div>
 
                           {/* Bio - Only in list view */}
-                          {viewMode === "list" && agent.bio && (
+                          {viewMode === 'list' && agent.bio && (
                             <p className="text-foreground/70 mb-4 line-clamp-3">
                               {agent.bio}
                             </p>
@@ -967,7 +963,7 @@ const AgentsPage = () => {
 
                           {/* Stats */}
                           <div
-                            className={`grid ${viewMode === "list" ? "grid-cols-4" : "grid-cols-2"} gap-3 mb-4`}
+                            className={`grid ${viewMode === 'list' ? 'grid-cols-4' : 'grid-cols-2'} gap-3 mb-4`}
                           >
                             <div className="text-center">
                               <div className="text-lg font-bold text-primary">
@@ -1114,24 +1110,24 @@ const AgentsPage = () => {
             {[
               {
                 icon: BadgeCheck,
-                title: "Licensed Professionals",
+                title: 'Licensed Professionals',
                 description:
-                  "All our agents are fully licensed and adhere to the highest industry standards.",
-                color: "bg-blue-100 text-blue-600",
+                  'All our agents are fully licensed and adhere to the highest industry standards.',
+                color: 'bg-blue-100 text-blue-600',
               },
               {
                 icon: Shield,
-                title: "Client Protection",
+                title: 'Client Protection',
                 description:
-                  "Your interests are protected through transparent communication and ethical practices.",
-                color: "bg-green-100 text-green-600",
+                  'Your interests are protected through transparent communication and ethical practices.',
+                color: 'bg-green-100 text-green-600',
               },
               {
                 icon: TrendingUp,
-                title: "Market Intelligence",
+                title: 'Market Intelligence',
                 description:
-                  "Deep understanding of market trends and property values for optimal results.",
-                color: "bg-amber-100 text-amber-600",
+                  'Deep understanding of market trends and property values for optimal results.',
+                color: 'bg-amber-100 text-amber-600',
               },
             ].map((item, index) => {
               const Icon = item.icon;
