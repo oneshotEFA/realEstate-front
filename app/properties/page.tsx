@@ -1,5 +1,4 @@
 "use client";
-
 import { Listing, ListingStatus, ListingType } from "@/lib/type/listing";
 import { listingService } from "@/lib/services/listings";
 import {
@@ -40,21 +39,13 @@ const UniversalListingPage = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]); // Default items per page
-  const { data: listingss } = useSWR<{
-    data: Listing[];
-    meta: { total: number; page: number; limit: number; totalPage: number };
-  }>(
-    ["listings", currentPage, itemsPerPage],
-    () => listingService.getListingByPage(currentPage, itemsPerPage),
-    {
-      revalidateOnFocus: false,
-    },
+  const [showFilters, setShowFilters] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [activeCategory, setActiveCategory] = useState<ListingType | "all">(
+    "all",
   );
-  const listings: Listing[] = listingss?.data ?? [];
-  const meta = listingss?.meta ?? { total: 0, page: 0, limit: 0, totalPage: 0 };
-
   const [filters, setFilters] = useState({
-    listingType: "all" as ListingType | "all",
+    type: "all" as ListingType | "all",
     priceRange: [0, 5000000],
     bedrooms: "any" as string | number,
     bathrooms: "any" as string | number,
@@ -72,11 +63,19 @@ const UniversalListingPage = () => {
     // Other filters
     searchQuery: "",
   });
-  const [showFilters, setShowFilters] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<ListingType | "all">(
-    "all",
+  const { data: listingss } = useSWR<{
+    data: Listing[];
+    meta: { total: number; page: number; limit: number; totalPage: number };
+  }>(
+    ["listings", currentPage, itemsPerPage, filters],
+    () => listingService.getListingByPage(currentPage, itemsPerPage, filters),
+    {
+      revalidateOnFocus: false,
+    },
   );
+  const listings: Listing[] = listingss?.data ?? [];
+  const meta = listingss?.meta ?? { total: 0, page: 0, limit: 0, totalPage: 0 };
+
   const categories = [
     {
       value: "all" as ListingType | "all",
@@ -136,132 +135,19 @@ const UniversalListingPage = () => {
     ...Array.from(new Set(listings?.map((l) => l?.city))),
   ];
 
-  // Filter listings
-  const filteredListings = useMemo(() => {
-    let result = [...(listings ?? [])];
-
-    // Search filter
-    if (filters.searchQuery) {
-      const query = filters.searchQuery.toLowerCase();
-      result = result.filter(
-        (listing) =>
-          listing.title.toLowerCase().includes(query) ||
-          listing.description?.toLowerCase().includes(query) ||
-          listing.city.toLowerCase().includes(query),
-      );
-    }
-
-    // Type filter
-    if (filters.listingType !== "all") {
-      result = result.filter((listing) => listing.type === filters.listingType);
-    }
-
-    // Status filter
-    if (filters.status !== "all") {
-      result = result.filter((listing) => listing.status === filters.status);
-    }
-
-    // City filter
-    if (filters.city !== "all") {
-      result = result.filter((listing) => listing.city === filters.city);
-    }
-
-    // Price filter
-    result = result.filter(
-      (listing) =>
-        listing.price >= filters.priceRange[0] &&
-        listing.price <= filters.priceRange[1],
-    );
-
-    // Property-specific filters - FIXED SECTION
-    if (filters.listingType === "PROPERTY" || filters.listingType === "all") {
-      // Bedrooms filter
-      if (filters.bedrooms !== "any") {
-        const minBeds =
-          filters.bedrooms === "4+" ? 4 : Number(filters.bedrooms);
-        result = result.filter((listing) => {
-          if (listing.type !== "PROPERTY") return true; // ignore non-properties
-          return (listing.bedrooms ?? 0) >= minBeds;
-        });
-      }
-
-      // Bathrooms filter
-      if (filters.bathrooms !== "any") {
-        const minBaths = Number(filters.bathrooms);
-        result = result.filter((listing) => {
-          if (listing.type !== "PROPERTY") return true; // ignore non-properties
-          return (listing.bathrooms ?? 0) >= minBaths;
-        });
-      }
-
-      // Square feet filter
-      result = result.filter((listing) => {
-        if (listing.type !== "PROPERTY") return true; // ignore non-properties
-        return (
-          !listing.squareFeet ||
-          (listing.squareFeet >= filters.squareFeet[0] &&
-            listing.squareFeet <= filters.squareFeet[1])
-        );
-      });
-
-      // Year built filter
-      result = result.filter((listing) => {
-        if (listing.type !== "PROPERTY") return true; // ignore non-properties
-        return (
-          !listing.yearBuilt ||
-          (listing.yearBuilt >= filters.yearBuilt[0] &&
-            listing.yearBuilt <= filters.yearBuilt[1])
-        );
-      });
-    }
-
-    // Sort
-    switch (filters.sortBy) {
-      case "price-low":
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case "price-high":
-        result.sort((a, b) => b.price - a.price);
-        break;
-      case "newest":
-        result.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        break;
-      case "oldest":
-        result.sort(
-          (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-        );
-        break;
-      default: // featured
-        result.sort((a, b) => {
-          // Simple featured logic - could be enhanced
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        });
-    }
-
-    return result;
-  }, [filters, listings]);
-
-  // Pagination calculations
   const totalItems = meta.total;
   const totalPages = meta.totalPage;
 
-  // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [filters, itemsPerPage]);
 
-  const currentItems = filteredListings;
+  const currentItems = listings;
 
   // Handle category change
   const handleCategoryChange = (category: ListingType | "all") => {
     setActiveCategory(category);
-    setFilters((prev) => ({ ...prev, listingType: category }));
+    setFilters((prev) => ({ ...prev, type: category }));
   };
 
   // Handle favorite toggle
@@ -492,7 +378,7 @@ const UniversalListingPage = () => {
           <button
             onClick={() => {
               setFilters({
-                listingType: "all",
+                type: "all",
                 priceRange: [0, 5000000],
                 bedrooms: "any",
                 bathrooms: "any",
@@ -613,8 +499,7 @@ const UniversalListingPage = () => {
         </div>
 
         {/* Property Details Section */}
-        {(filters.listingType === "PROPERTY" ||
-          filters.listingType === "all") && (
+        {(filters.type === "PROPERTY" || filters.type === "all") && (
           <div className="space-y-6 mb-10">
             <div className="flex items-center gap-2 mb-4">
               <HomeIcon size={16} className="text-primary" />
@@ -702,8 +587,8 @@ const UniversalListingPage = () => {
   // Active Filters Display
   const ActiveFilters = () => {
     const activeFilters = [];
-    if (filters.listingType !== "all") {
-      const category = categories.find((c) => c.value === filters.listingType);
+    if (filters.type !== "all") {
+      const category = categories.find((c) => c.value === filters.type);
       activeFilters.push(category?.label || "");
     }
 
@@ -750,7 +635,7 @@ const UniversalListingPage = () => {
         <button
           onClick={() => {
             setFilters({
-              listingType: "all",
+              type: "all",
               priceRange: [0, 5000000],
               bedrooms: "any",
               bathrooms: "any",
@@ -1062,7 +947,7 @@ const UniversalListingPage = () => {
                   <button
                     onClick={() => {
                       setFilters({
-                        listingType: "all",
+                        type: "all",
                         priceRange: [0, 5000000],
                         bedrooms: "any",
                         bathrooms: "any",
@@ -1299,7 +1184,7 @@ const UniversalListingPage = () => {
                   </div>
 
                   {/* Pagination */}
-                  {filteredListings.length > 0 && (
+                  {listings?.length > 0 && (
                     <>
                       <Pagination />
                       <CompactPagination />

@@ -18,21 +18,44 @@
   "status": "ACTIVE",
   "type": "PROPERTY",
   "agentId": "agent_101",
+
   "images": [
     "https://images.unsplash.com/photo-1572120360610-d971b9d7767c",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
     "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde"
   ],
+
   "inquiries": [],
   "seoTitle": "Modern 3-Bedroom House for Sale in Adama",
   "seoDescription": "Discover a modern 3-bedroom family house in Adama with a spacious layout and elegant design.",
   "createdAt": "2026-02-01T10:15:30.000Z",
   "updatedAt": "2026-02-05T08:45:10.000Z",
   "featured": true,
+
+  "propertyType": "Single Family Home",
+  "parkingSpots": 2,
+  "floorNumber": 1,
+  "totalFloors": 1,
+  "hoaFee": 0,
+  "propertyTax": 3500,
+  "heatingType": "Electric",
+  "coolingType": "Split AC",
+  "lastRenovated": 2022,
+
+  "features": ["Garden", "Modern Kitchen", "Ceramic Flooring", "Water Tank"],
+
+  "amenities": ["Parking", "Security Fence", "Nearby Schools", "Shops Nearby"],
+
   "agent": {
     "id": "agent_101",
     "name": "Samuel Bekele",
     "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
-    "rating": 4.7
+    "rating": 4.7,
+    "reviews": 54,
+    "phone": "+251 912 345 678",
+    "email": "samuel@realestate.et",
+    "licenseId": "ET-RE-101",
+    "yearsExperience": 8,
+    "specialties": ["Family Homes", "Residential Sales"]
   }
 }
