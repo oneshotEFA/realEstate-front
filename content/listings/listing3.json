@@ -17,21 +17,49 @@
   "status": "ACTIVE",
   "type": "PROPERTY",
   "agentId": "agent_102",
+
   "images": [
     "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
     "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
     "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
   ],
+
   "inquiries": [],
   "seoTitle": "Luxury Apartment for Sale in Addis Ababa",
   "seoDescription": "High-end apartment in Addis Ababa city center featuring modern interiors and premium amenities.",
   "createdAt": "2026-01-20T14:10:00.000Z",
   "updatedAt": "2026-02-03T09:20:00.000Z",
   "featured": true,
+
+  "propertyType": "Apartment",
+  "parkingSpots": 1,
+  "floorNumber": 12,
+  "totalFloors": 20,
+  "hoaFee": 250,
+  "propertyTax": 4200,
+  "heatingType": "Central",
+  "coolingType": "Central AC",
+  "lastRenovated": 2023,
+
+  "features": ["City View", "Balcony", "Elevator Access", "Modern Interior"],
+
+  "amenities": [
+    "Gym",
+    "24/7 Security",
+    "Underground Parking",
+    "Backup Generator"
+  ],
+
   "agent": {
     "id": "agent_102",
     "name": "Hanna Tesfaye",
     "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
-    "rating": 4.9
+    "rating": 4.9,
+    "reviews": 89,
+    "phone": "+251 911 222 333",
+    "email": "hanna@realestate.et",
+    "licenseId": "ET-RE-102",
+    "yearsExperience": 11,
+    "specialties": ["Luxury Apartments", "Urban Properties"]
   }
 }

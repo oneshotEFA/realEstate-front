@@ -18,21 +18,52 @@
   "status": "ACTIVE",
   "type": "PROPERTY",
   "agentId": "agent_103",
+
   "images": [
     "https://images.unsplash.com/photo-1599423300746-b62533397364",
     "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf",
     "https://images.unsplash.com/photo-1576941089067-2de3c901e126"
   ],
+
   "inquiries": [],
   "seoTitle": "Affordable House for Sale in Bishoftu",
   "seoDescription": "Budget-friendly 2-bedroom house in Bishoftu, ideal for first-time homeowners.",
   "createdAt": "2026-01-10T11:00:00.000Z",
   "updatedAt": "2026-01-28T16:30:00.000Z",
   "featured": false,
+
+  "propertyType": "Single Family Home",
+  "parkingSpots": 1,
+  "floorNumber": 1,
+  "totalFloors": 1,
+  "hoaFee": 0,
+  "propertyTax": 1500,
+  "heatingType": "Electric",
+  "coolingType": "Fan",
+  "lastRenovated": 2021,
+
+  "features": [
+    "Small Garden",
+    "Tile Flooring",
+    "Water Storage Tank"
+  ],
+
+  "amenities": [
+    "Nearby Market",
+    "Public Transport Access",
+    "Quiet Neighborhood"
+  ],
+
   "agent": {
     "id": "agent_103",
     "name": "Abel Girma",
     "avatar": "https://randomuser.me/api/portraits/men/65.jpg",
-    "rating": 4.4
+    "rating": 4.4,
+    "reviews": 31,
+    "phone": "+251 913 888 444",
+    "email": "abel@realestate.et",
+    "licenseId": "ET-RE-103",
+    "yearsExperience": 6,
+    "specialties": ["Starter Homes", "Suburban Sales"]
   }
 }

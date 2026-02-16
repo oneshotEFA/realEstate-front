@@ -9,28 +9,46 @@ export interface Listing {
   squareFeet?: number;
   lotSize?: number;
   yearBuilt?: number;
+
   address: string;
   city: string;
   state: string;
   zip: string;
+
   latitude?: number;
   longitude?: number;
-  status: ListingStatus;
-  type: ListingType;
+
+  status: "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
+  type: "PROPERTY" | "CAR" | "OTHER";
+
   agentId: string;
+
+  // MATCH JSON
   images: string[];
-  inquiries: any[];
+
+  inquiries?: unknown[];
+
   seoTitle?: string;
   seoDescription?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  featured: boolean;
-  agent?: {
-    id: string;
-    name: string;
-    avatar?: string;
-    rating?: number;
-  };
+  featured?: boolean;
+
+  createdAt: string;
+  updatedAt: string;
+
+  agent?: any;
+
+  features?: string[];
+  amenities?: string[];
+
+  propertyType?: string;
+  parkingSpots?: number;
+  floorNumber?: number;
+  totalFloors?: number;
+  hoaFee?: number;
+  propertyTax?: number;
+  heatingType?: string;
+  coolingType?: string;
+  lastRenovated?: number;
 }
 export type ListingStatus = "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
 export type ListingType = "PROPERTY" | "CAR" | "OTHER";

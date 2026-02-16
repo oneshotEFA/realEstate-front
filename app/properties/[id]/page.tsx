@@ -49,6 +49,9 @@ import {
 import Link from "next/link";
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
+import { listingService } from "@/lib/services/listings";
 
 // Types based on your schema
 interface ListingImage {
@@ -91,7 +94,7 @@ interface Listing {
   status: "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
   type: "PROPERTY" | "CAR" | "OTHER";
   agentId: string;
-  images: ListingImage[];
+  images: string[];
   createdAt: Date;
   updatedAt: Date;
   agent?: Agent;
@@ -110,6 +113,8 @@ interface Listing {
 }
 
 const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
+  const param = useParams();
+  const id = param.id as string;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showAllImages, setShowAllImages] = useState(false);
@@ -117,128 +122,16 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-
-  // Mock listing data
-  const listing: Listing = {
-    pid: "prop_1",
-    title: "Modern Luxury Villa with Ocean Views",
-    slug: "modern-luxury-villa-ocean-views",
-    description:
-      "Stunning contemporary villa featuring breathtaking ocean views, premium finishes, and state-of-the-art smart home technology. This exquisite property offers the ultimate in luxury living with its open-concept design, floor-to-ceiling windows, and seamless indoor-outdoor flow. The chef's kitchen boasts top-of-the-line appliances, while the master suite includes a spa-like bathroom and private balcony overlooking the Pacific.",
-    price: 3850000,
-    bedrooms: 5,
-    bathrooms: 4.5,
-    squareFeet: 5200,
-    lotSize: 0.75,
-    yearBuilt: 2023,
-    address: "123 Oceanview Drive",
-    city: "Malibu",
-    state: "CA",
-    zip: "90265",
-    status: "ACTIVE",
-    type: "PROPERTY",
-    agentId: "agent_1",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-20"),
-    propertyType: "Single Family Home",
-    parkingSpots: 3,
-    floorNumber: 2,
-    totalFloors: 2,
-    hoaFee: 450,
-    propertyTax: 38500,
-    heatingType: "Central",
-    coolingType: "Central AC",
-    lastRenovated: 2023,
-    features: [
-      "Ocean View",
-      "Smart Home",
-      "Wine Cellar",
-      "Home Theater",
-      "Pool",
-      "Spa",
-      "Outdoor Kitchen",
-      "Solar Panels",
-      "EV Charging",
-      "Security System",
-    ],
-    amenities: [
-      "Pool",
-      "Spa",
-      "Gym",
-      "Wine Cellar",
-      "Home Theater",
-      "Outdoor Kitchen",
-      "Smart Home",
-      "Solar Panels",
-      "EV Charging",
-      "Security System",
-      "Central AC",
-      "Hardwood Floors",
-      "Walk-in Closets",
-      "Wet Bar",
-      "Fireplace",
-    ],
-    images: [
-      {
-        id: "img_1",
-        url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&h=800&fit=crop",
-        caption: "Front exterior with modern architecture",
-        isPrimary: true,
-      },
-      {
-        id: "img_2",
-        url: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&h=800&fit=crop",
-        caption: "Living room with panoramic ocean view",
-      },
-      {
-        id: "img_3",
-        url: "https://images.unsplash.com/photo-1616587226154-91eab0a51dc7?w=1200&h=800&fit=crop",
-        caption: "Chef's kitchen with premium appliances",
-      },
-      {
-        id: "img_4",
-        url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&h=800&fit=crop",
-        caption: "Master bedroom suite with private balcony",
-      },
-      {
-        id: "img_5",
-        url: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&h=800&fit=crop",
-        caption: "Infinity pool and outdoor entertainment area",
-      },
-      {
-        id: "img_6",
-        url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=800&fit=crop",
-        caption: "Home theater with 4K projection system",
-      },
-      {
-        id: "img_7",
-        url: "https://images.unsplash.com/photo-1570129477492-45b003493e3b?w=1200&h=800&fit=crop",
-        caption: "Wine cellar with temperature control",
-      },
-      {
-        id: "img_8",
-        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&h=800&fit=crop",
-        caption: "Private gym with premium equipment",
-      },
-    ],
-    agent: {
-      id: "agent_1",
-      name: "Sarah Johnson",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop",
-      rating: 4.9,
-      reviews: 128,
-      phone: "+1 (555) 123-4567",
-      email: "sarah@ayelehomes.com",
-      licenseId: "CA-1234567",
-      yearsExperience: 15,
-      specialties: [
-        "Luxury Homes",
-        "Waterfront Properties",
-        "Investment Properties",
-      ],
-    },
-  };
+  const { data, isLoading } = useSWR(
+    ["listingDetail", id],
+    () => listingService.getListingById(id),
+    { revalidateOnFocus: false },
+  );
+  console.log("Fetched listing data:", data);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  const listing: Listing = data ?? [];
 
   // Navigation functions
   const nextImage = () => {
@@ -259,7 +152,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
     if (price >= 1000000) {
       return `$${(price / 1000000).toFixed(2)}M`;
     }
-    return `$${price.toLocaleString()}`;
+    return `$${price?.toLocaleString()}`;
   };
 
   const getPricePerSqft = () => {
@@ -285,8 +178,8 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
         onClick={() => setImageModalOpen(true)}
       >
         <img
-          src={listing.images[currentImageIndex].url}
-          alt={listing.images[currentImageIndex].caption || listing.title}
+          src={listing.images[currentImageIndex]}
+          alt={listing.images[currentImageIndex] || listing.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -326,19 +219,19 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
       {/* Thumbnail Strip */}
       <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-        {listing.images.map((image, index) => (
+        {listing?.images.map((image, index) => (
           <button
-            key={image.id}
+            key={image} // Assuming URL is unique, otherwise use image.id
             onClick={() => goToImage(index)}
-            className={`relative flex-shrink-0 w-24 h-20 rounded-xl overflow-hidden border-2 transition-all ${
+            className={`relative shrink-0 w-24 h-20 rounded-xl overflow-hidden border-2 transition-all ${
               currentImageIndex === index
                 ? "border-primary scale-105 shadow-lg"
                 : "border-transparent hover:border-primary/50"
             }`}
           >
             <img
-              src={image.url}
-              alt={image.caption || `Image ${index + 1}`}
+              src={image}
+              alt={image || `Image ${index + 1}`}
               className="w-full h-full object-cover"
             />
             {currentImageIndex === index && (
@@ -685,8 +578,8 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
         <div className="relative h-full rounded-2xl overflow-hidden">
           <img
-            src={listing.images[currentImageIndex].url}
-            alt={listing.images[currentImageIndex].caption || listing.title}
+            src={listing.images[currentImageIndex]}
+            alt={listing.images[currentImageIndex] || listing.title}
             className="w-full h-full object-contain"
           />
 
@@ -712,7 +605,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm rounded-xl px-6 py-3 max-w-lg">
             <p className="text-white text-center">
-              {listing.images[currentImageIndex].caption}
+              {listing.images[currentImageIndex]}
             </p>
           </div>
         </div>
@@ -721,16 +614,16 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           <div className="flex gap-2 justify-center px-4">
             {listing.images.map((image, index) => (
               <button
-                key={image.id}
+                key={image} // Assuming URL is unique, otherwise use image.id
                 onClick={() => goToImage(index)}
-                className={`relative flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                className={`relative shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                   currentImageIndex === index
                     ? "border-white scale-110"
                     : "border-transparent hover:border-white/50"
                 }`}
               >
                 <img
-                  src={image.url}
+                  src={image}
                   alt={`Thumbnail ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
