@@ -213,7 +213,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
     >
       {/* Main Image */}
       <div
-        className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden cursor-zoom-in group"
+        className="relative h-96 md:h-125 rounded-3xl overflow-hidden cursor-zoom-in group"
         onClick={() => setImageModalOpen(true)}
       >
         <img
@@ -221,7 +221,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           alt={listing.images[currentImageIndex] || listing.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
 
         {/* Image Navigation */}
         <button
@@ -618,7 +618,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
               Message
             </label>
             <textarea
-              className="w-full p-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[120px]"
+              className="w-full p-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-30"
               placeholder={`Hi ${listing.agent?.name}, I'm interested in ${listing.title}...`}
               defaultValue={`Hi ${listing.agent?.name}, I'm interested in ${listing.title} and would like to schedule a viewing. Please contact me with available times.`}
             />
@@ -940,7 +940,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   <h3 className="text-xl font-bold text-foreground mb-4">
                     Location Details
                   </h3>
-                  <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl mb-6 flex items-center justify-center">
+                  <div className="aspect-video bg-linear-to-br from-primary/5 to-secondary/5 rounded-xl mb-6 flex items-center justify-center">
                     <div className="text-center">
                       <Globe
                         size={48}
