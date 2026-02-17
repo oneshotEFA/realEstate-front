@@ -32,8 +32,11 @@
     "totalVolume": 4200000,
     "avgDaysOnMarket": 29,
     "clientSatisfaction": 92,
-    "listToSaleRatio": 0.97
+    "listToSaleRatio": 0.97,
+    "totalCarSales": 900,
+    "totalHouseSales": 1.2
   },
   "featured": true,
+  "CEO": true,
   "available": true
 }
