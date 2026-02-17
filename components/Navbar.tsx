@@ -15,7 +15,6 @@ const Navbar = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Show navbar when scrolling up, hide when scrolling down
       if (currentScrollY < lastScrollY) {
         setIsVisible(true);
       } else if (currentScrollY > 100) {
@@ -47,12 +46,17 @@ const Navbar = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* Floating glass container */}
       <div className="max-w-7xl mx-auto rounded-2xl bg-white/80 backdrop-blur-md shadow-lg border border-white/20">
         <div className="flex items-center justify-between px-6 py-4">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-primary">
-            Ayele Homes
+          
+          {/* Logo + Brand */}
+          <Link href="/" className="flex items-center gap-3">
+            <img
+              src="https://res.cloudinary.com/dobairxju/image/upload/v1770385434/logo2_k0955s.jpg"
+              alt="Ayele Homes Logo"
+              className="w-16 h-16 object-contain"
+            />
+            <span className="text-2xl font-bold text-primary">Ayele Homes</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -72,7 +76,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Desktop CTA Button */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex gap-3">
             <Link
               href="/contact"
