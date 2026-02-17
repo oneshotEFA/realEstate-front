@@ -32,10 +32,10 @@ const Contact = () => (
                   📞 <strong>+251 977-32-52-96</strong>
                 </p>
                 <p>
-                  ✉️ <strong>info@ayelehomes.com</strong>
+                  ✉️ <strong>ikirubelayele2127@gmail.com</strong>
                 </p>
                 <p>
-                  📍 <strong>Bole, Addis Ababa, Ethiopia</strong>
+                  📍 <strong>Gerji, Addis Ababa, Ethiopia</strong>
                 </p>
               </div>
             </div>
