@@ -32,6 +32,7 @@ import {
 import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import useSWR from "swr";
+import { motion, AnimatePresence } from "framer-motion";
 // Types based on your Prisma schema
 
 const UniversalListingPage = () => {
@@ -141,6 +142,39 @@ const UniversalListingPage = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [filters, itemsPerPage]);
+
+  const pageVariants = {
+    hidden: { opacity: 0, y: 10 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 16 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.55 },
+    },
+  };
 
   const currentItems = listings;
 
@@ -357,7 +391,12 @@ const UniversalListingPage = () => {
 
   // Enhanced Filter Section with dynamic filters
   const FilterSection = () => (
-    <aside className="w-full  space-y-6">
+    <motion.aside
+      className="w-full  space-y-6"
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+    >
       {/* Header Section with Neon Accent */}
       <div className="relative overflow-hidden bg-white/80 backdrop-blur-xl rounded-3xl p-6 border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
@@ -581,7 +620,7 @@ const UniversalListingPage = () => {
           Notify Me
         </button>
       </div>
-    </aside>
+    </motion.aside>
   );
 
   // Active Filters Display
@@ -667,14 +706,24 @@ const UniversalListingPage = () => {
   };
 
   return (
-    <div className="min-h-screen lg:py-10 md:py-7 py-5 bg-background">
+    <motion.div
+      className="min-h-screen lg:py-10 md:py-7 py-5 bg-background"
+      variants={pageVariants}
+      initial="hidden"
+      animate="show"
+    >
       {/* Hero Section */}
-      <section className="relative px-4 md:px-8 py-20 overflow-hidden">
+      <motion.section
+        className="relative px-4 md:px-8 py-20 overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-background to-secondary/5 -z-10" />
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/10 rounded-full blur-3xl -z-10" />
 
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <motion.div className="text-center mb-12" variants={fadeUp}>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold w-fit mb-6">
               <Sparkles size={14} /> Universal Marketplace
             </div>
@@ -690,10 +739,10 @@ const UniversalListingPage = () => {
               Browse properties, cars, electronics, furniture, and more. Our
               smart filters help you find exactly what you're looking for.
             </p>
-          </div>
+          </motion.div>
 
           {/* Enhanced Search Bar */}
-          <div className="max-w-4xl mx-auto mb-12">
+          <motion.div className="max-w-4xl mx-auto mb-12" variants={fadeUp}>
             <div className="bg-white rounded-2xl p-4 border border-border shadow-xl">
               <div className="flex flex-col md:flex-row gap-3">
                 <div className="flex-1">
@@ -766,20 +815,35 @@ const UniversalListingPage = () => {
                 })}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Content */}
-      <section className="px-4 md:px-8 py-8">
+      <motion.section
+        className="px-4 md:px-8 py-8"
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Filters Sidebar - Desktop */}
-            <div className="hidden lg:block w-80 shrink-0">
+            <motion.div
+              className="hidden lg:block w-80 shrink-0"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+            >
               <FilterSection />
 
               {/* Category Value Summary */}
-              <div className="mt-6 bg-linear-to-br from-primary/10 to-secondary/10 rounded-2xl p-6 border border-primary/20">
+              <motion.div
+                className="mt-6 bg-linear-to-br from-primary/10 to-secondary/10 rounded-2xl p-6 border border-primary/20"
+                variants={fadeUp}
+                initial="hidden"
+                animate="show"
+              >
                 <h4 className="font-bold text-foreground mb-3 flex items-center gap-2">
                   <DollarSign size={20} className="text-primary" />
                   Category Values
@@ -803,44 +867,63 @@ const UniversalListingPage = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Mobile Filters Overlay */}
-            {showFilters && (
-              <div
-                className="fixed inset-0 bg-black/50 z-50 lg:hidden animate-in fade-in duration-200"
-                onClick={() => setShowFilters(false)}
-              >
-                <div
-                  className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white p-6 overflow-y-auto animate-in slide-in-from-right duration-300"
-                  onClick={(e) => e.stopPropagation()}
+            <AnimatePresence>
+              {showFilters && (
+                <motion.div
+                  className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+                  onClick={() => setShowFilters(false)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                 >
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Filter size={20} className="text-primary" />
+                  <motion.div
+                    className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white p-6 overflow-y-auto"
+                    onClick={(e) => e.stopPropagation()}
+                    initial={{ x: 80, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 80, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Filter size={20} className="text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground">
+                          Smart Filters
+                        </h3>
                       </div>
-                      <h3 className="text-xl font-bold text-foreground">
-                        Smart Filters
-                      </h3>
+                      <button
+                        onClick={() => setShowFilters(false)}
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
+                      >
+                        <X size={24} />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => setShowFilters(false)}
-                      className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
-                    >
-                      <X size={24} />
-                    </button>
-                  </div>
-                  <FilterSection />
-                </div>
-              </div>
-            )}
+                    <FilterSection />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Listings Grid */}
-            <div className="flex-1">
+            <motion.div
+              className="flex-1"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+            >
               {/* Header Controls */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+              <motion.div
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+                variants={fadeUp}
+                initial="hidden"
+                animate="show"
+              >
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">
                     Showing {Math.min(currentItems.length, itemsPerPage)} of{" "}
@@ -929,7 +1012,7 @@ const UniversalListingPage = () => {
                     Filters
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Listings Grid/List */}
               {currentItems.length === 0 ? (
@@ -971,12 +1054,15 @@ const UniversalListingPage = () => {
                 </div>
               ) : (
                 <>
-                  <div
+                  <motion.div
                     className={
                       viewMode === "grid"
                         ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
                         : "space-y-6"
                     }
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="show"
                   >
                     {currentItems.map((listing) => {
                       const CategoryIcon = getCategoryIcon(listing.type);
@@ -988,200 +1074,208 @@ const UniversalListingPage = () => {
                         <Link
                           key={listing.pid}
                           href={`/properties/${listing.pid}`}
-                          className={`group bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 ${
-                            viewMode === "list"
-                              ? "flex flex-col md:flex-row"
-                              : "hover:-translate-y-2"
-                          }`}
+                          className="block"
                         >
-                          {/* Image */}
-                          <div
-                            className={`relative overflow-hidden ${
+                          <motion.article
+                            className={`group bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 ${
                               viewMode === "list"
-                                ? "md:w-80 h-64 md:h-auto shrink-0"
-                                : "h-56"
+                                ? "flex flex-col md:flex-row"
+                                : "hover:-translate-y-2"
                             }`}
+                            variants={cardVariants}
+                            initial="hidden"
+                            animate="show"
+                            whileHover={{ y: viewMode === "list" ? 0 : -6 }}
                           >
-                            <img
-                              src={listing.images[0]}
-                              alt={listing.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-
-                            {/* Category Badge */}
-                            <div className="absolute top-4 left-4">
-                              <span
-                                className={`px-3 py-1.5 ${statusColor} rounded-full text-xs font-bold shadow-md flex items-center gap-1`}
-                              >
-                                <CategoryIcon size={10} />
-                                {listing.type}
-                              </span>
-                            </div>
-
-                            {/* Favorite Button */}
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                toggleFavorite(listing.pid);
-                              }}
-                              className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-sm transition-all ${
-                                favorites.includes(listing.pid)
-                                  ? "bg-red-500/20 text-red-500"
-                                  : "bg-white/20 text-white hover:bg-white/30"
+                            {/* Image */}
+                            <div
+                              className={`relative overflow-hidden ${
+                                viewMode === "list"
+                                  ? "md:w-80 h-64 md:h-auto shrink-0"
+                                  : "h-56"
                               }`}
                             >
-                              <Heart
-                                size={18}
-                                className={
-                                  favorites.includes(listing.pid)
-                                    ? "fill-red-500"
-                                    : ""
-                                }
+                              <img
+                                src={listing.images[0]}
+                                alt={listing.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                               />
-                            </button>
+                              <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
 
-                            {/* Price Tag */}
-                            <div className="absolute bottom-4 left-4">
-                              <div className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg">
-                                <p className="text-xl font-bold text-primary">
-                                  {formatPrice(listing.price)}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div
-                            className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}
-                          >
-                            <div className="flex items-start justify-between mb-4">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <CategoryIcon
-                                    size={16}
-                                    className="text-foreground/60"
-                                  />
-                                  <span className="text-sm font-semibold text-secondary uppercase">
-                                    {listing.type}
-                                  </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-1">
-                                  {listing.title}
-                                </h3>
-                                <div className="flex items-center gap-1 text-foreground/60 text-sm mb-3">
-                                  <MapPin size={14} />
-                                  <span>
-                                    {listing.address}, {listing.city},{" "}
-                                    {listing.state}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Description - Only in list view */}
-                            {viewMode === "list" && (
-                              <p className="text-foreground/70 mb-4 line-clamp-2">
-                                {listing.description}
-                              </p>
-                            )}
-
-                            {/* Property Details (if property) */}
-                            {listing.type === "PROPERTY" &&
-                              (listing.bedrooms ||
-                                listing.bathrooms ||
-                                listing.squareFeet) && (
-                                <div
-                                  className={`grid ${
-                                    viewMode === "list"
-                                      ? "grid-cols-3"
-                                      : "grid-cols-3"
-                                  } gap-3 mb-4`}
+                              {/* Category Badge */}
+                              <div className="absolute top-4 left-4">
+                                <span
+                                  className={`px-3 py-1.5 ${statusColor} rounded-full text-xs font-bold shadow-md flex items-center gap-1`}
                                 >
-                                  {listing.bedrooms && (
-                                    <div className="text-center">
-                                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <Bed
-                                          size={18}
-                                          className="text-primary"
-                                        />
-                                      </div>
-                                      <span className="text-sm font-semibold text-foreground">
-                                        {listing.bedrooms} Beds
-                                      </span>
-                                    </div>
-                                  )}
-                                  {listing.bathrooms && (
-                                    <div className="text-center">
-                                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <Bath
-                                          size={18}
-                                          className="text-primary"
-                                        />
-                                      </div>
-                                      <span className="text-sm font-semibold text-foreground">
-                                        {listing.bathrooms} Baths
-                                      </span>
-                                    </div>
-                                  )}
-                                  {listing.squareFeet && (
-                                    <div className="text-center">
-                                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <Ruler
-                                          size={18}
-                                          className="text-primary"
-                                        />
-                                      </div>
-                                      <span className="text-sm font-semibold text-foreground">
-                                        {listing.squareFeet.toLocaleString()}{" "}
-                                        sqft
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-
-                            {/* Agent & Actions */}
-                            <div className="pt-4 border-t border-border flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                {listing.agent?.avatar && (
-                                  <img
-                                    src={listing.agent.avatar}
-                                    alt={listing.agent.name}
-                                    className="w-8 h-8 rounded-full border-2 border-white shadow"
-                                  />
-                                )}
-                                <div>
-                                  <p className="text-sm font-medium text-foreground">
-                                    {listing.agent?.name}
-                                  </p>
-                                  {listing.agent?.rating && (
-                                    <div className="flex items-center gap-1">
-                                      <Star
-                                        size={12}
-                                        className="fill-yellow-400 text-yellow-400"
-                                      />
-                                      <span className="text-xs text-foreground/60">
-                                        {listing.agent.rating}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
+                                  <CategoryIcon size={10} />
+                                  {listing.type}
+                                </span>
                               </div>
-                              <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all font-semibold text-sm flex items-center gap-2 group/btn">
-                                View Details
-                                <ArrowRight
-                                  size={16}
-                                  className="group-hover/btn:translate-x-1 transition-transform"
+
+                              {/* Favorite Button */}
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  toggleFavorite(listing.pid);
+                                }}
+                                className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-sm transition-all ${
+                                  favorites.includes(listing.pid)
+                                    ? "bg-red-500/20 text-red-500"
+                                    : "bg-white/20 text-white hover:bg-white/30"
+                                }`}
+                              >
+                                <Heart
+                                  size={18}
+                                  className={
+                                    favorites.includes(listing.pid)
+                                      ? "fill-red-500"
+                                      : ""
+                                  }
                                 />
                               </button>
+
+                              {/* Price Tag */}
+                              <div className="absolute bottom-4 left-4">
+                                <div className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg">
+                                  <p className="text-xl font-bold text-primary">
+                                    {formatPrice(listing.price)}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
+
+                            {/* Content */}
+                            <div
+                              className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}
+                            >
+                              <div className="flex items-start justify-between mb-4">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <CategoryIcon
+                                      size={16}
+                                      className="text-foreground/60"
+                                    />
+                                    <span className="text-sm font-semibold text-secondary uppercase">
+                                      {listing.type}
+                                    </span>
+                                  </div>
+                                  <h3 className="text-xl font-bold text-foreground mb-2 line-clamp-1">
+                                    {listing.title}
+                                  </h3>
+                                  <div className="flex items-center gap-1 text-foreground/60 text-sm mb-3">
+                                    <MapPin size={14} />
+                                    <span>
+                                      {listing.address}, {listing.city},{" "}
+                                      {listing.state}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Description - Only in list view */}
+                              {viewMode === "list" && (
+                                <p className="text-foreground/70 mb-4 line-clamp-2">
+                                  {listing.description}
+                                </p>
+                              )}
+
+                              {/* Property Details (if property) */}
+                              {listing.type === "PROPERTY" &&
+                                (listing.bedrooms ||
+                                  listing.bathrooms ||
+                                  listing.squareFeet) && (
+                                  <div
+                                    className={`grid ${
+                                      viewMode === "list"
+                                        ? "grid-cols-3"
+                                        : "grid-cols-3"
+                                    } gap-3 mb-4`}
+                                  >
+                                    {listing.bedrooms && (
+                                      <div className="text-center">
+                                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                          <Bed
+                                            size={18}
+                                            className="text-primary"
+                                          />
+                                        </div>
+                                        <span className="text-sm font-semibold text-foreground">
+                                          {listing.bedrooms} Beds
+                                        </span>
+                                      </div>
+                                    )}
+                                    {listing.bathrooms && (
+                                      <div className="text-center">
+                                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                          <Bath
+                                            size={18}
+                                            className="text-primary"
+                                          />
+                                        </div>
+                                        <span className="text-sm font-semibold text-foreground">
+                                          {listing.bathrooms} Baths
+                                        </span>
+                                      </div>
+                                    )}
+                                    {listing.squareFeet && (
+                                      <div className="text-center">
+                                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                          <Ruler
+                                            size={18}
+                                            className="text-primary"
+                                          />
+                                        </div>
+                                        <span className="text-sm font-semibold text-foreground">
+                                          {listing.squareFeet.toLocaleString()}{" "}
+                                          sqft
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
+                              {/* Agent & Actions */}
+                              <div className="pt-4 border-t border-border flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  {listing.agent?.avatar && (
+                                    <img
+                                      src={listing.agent.avatar}
+                                      alt={listing.agent.name}
+                                      className="w-8 h-8 rounded-full border-2 border-white shadow"
+                                    />
+                                  )}
+                                  <div>
+                                    <p className="text-sm font-medium text-foreground">
+                                      {listing.agent?.name}
+                                    </p>
+                                    {listing.agent?.rating && (
+                                      <div className="flex items-center gap-1">
+                                        <Star
+                                          size={12}
+                                          className="fill-yellow-400 text-yellow-400"
+                                        />
+                                        <span className="text-xs text-foreground/60">
+                                          {listing.agent.rating}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                                <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all font-semibold text-sm flex items-center gap-2 group/btn">
+                                  View Details
+                                  <ArrowRight
+                                    size={16}
+                                    className="group-hover/btn:translate-x-1 transition-transform"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </motion.article>
                         </Link>
                       );
                     })}
-                  </div>
+                  </motion.div>
 
                   {/* Pagination */}
                   {listings?.length > 0 && (
@@ -1215,11 +1309,11 @@ const UniversalListingPage = () => {
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 };
 

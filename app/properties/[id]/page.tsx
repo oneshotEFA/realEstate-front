@@ -52,6 +52,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { listingService } from "@/lib/services/listings";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Types based on your schema
 interface ListingImage {
@@ -133,6 +134,39 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
   }
   const listing: Listing = data ?? [];
 
+  const pageVariants = {
+    hidden: { opacity: 0, y: 12 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  const panelVariants = {
+    hidden: { opacity: 0, y: 24, scale: 0.98 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.55 },
+    },
+  };
+
   // Navigation functions
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % listing.images.length);
@@ -171,10 +205,15 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
   // Image Gallery Component
   const ImageGallery = () => (
-    <div className="relative">
+    <motion.div
+      className="relative"
+      variants={panelVariants}
+      initial="hidden"
+      animate="show"
+    >
       {/* Main Image */}
       <div
-        className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden cursor-zoom-in group"
+        className="relative h-96 md:h-125 rounded-3xl overflow-hidden cursor-zoom-in group"
         onClick={() => setImageModalOpen(true)}
       >
         <img
@@ -182,7 +221,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           alt={listing.images[currentImageIndex] || listing.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
 
         {/* Image Navigation */}
         <button
@@ -248,12 +287,17 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
       >
         View All {listing.images.length} Photos
       </button>
-    </div>
+    </motion.div>
   );
 
   // Quick Stats Component
   const QuickStats = () => (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-white rounded-2xl border border-border shadow-sm">
+    <motion.div
+      className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-white rounded-2xl border border-border shadow-sm"
+      variants={panelVariants}
+      initial="hidden"
+      animate="show"
+    >
       <div className="text-center">
         <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-2">
           <Bed size={24} className="text-primary" />
@@ -293,12 +337,17 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
         </div>
         <div className="text-sm text-foreground/60">Parking</div>
       </div>
-    </div>
+    </motion.div>
   );
 
   // Price Breakdown Component
   const PriceBreakdown = () => (
-    <div className="bg-white rounded-2xl border border-border p-6">
+    <motion.div
+      className="bg-white rounded-2xl border border-border p-6"
+      variants={panelVariants}
+      initial="hidden"
+      animate="show"
+    >
       <h3 className="text-xl font-bold text-foreground mb-4">Price Details</h3>
       <div className="space-y-3">
         <div className="flex justify-between">
@@ -322,12 +371,17 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 
   // Features & Amenities Component
   const FeaturesAmenities = () => (
-    <div className="bg-white rounded-2xl border border-border p-6">
+    <motion.div
+      className="bg-white rounded-2xl border border-border p-6"
+      variants={panelVariants}
+      initial="hidden"
+      animate="show"
+    >
       <h3 className="text-xl font-bold text-foreground mb-6">
         Features & Amenities
       </h3>
@@ -411,12 +465,17 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   // Agent Card Component
   const AgentCard = () => (
-    <div className="bg-white rounded-2xl border border-border p-6">
+    <motion.div
+      className="bg-white rounded-2xl border border-border p-6"
+      variants={panelVariants}
+      initial="hidden"
+      animate="show"
+    >
       <div className="flex items-start gap-4 mb-6">
         <img
           src={
@@ -492,13 +551,24 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   // Contact Form Modal
   const ContactFormModal = () => (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 animate-in slide-in-up duration-300">
+    <motion.div
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="bg-white rounded-2xl max-w-md w-full p-6"
+        initial={{ y: 30, opacity: 0, scale: 0.98 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 30, opacity: 0, scale: 0.98 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-foreground">Contact Agent</h3>
           <button
@@ -548,7 +618,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
               Message
             </label>
             <textarea
-              className="w-full p-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[120px]"
+              className="w-full p-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-30"
               placeholder={`Hi ${listing.agent?.name}, I'm interested in ${listing.title}...`}
               defaultValue={`Hi ${listing.agent?.name}, I'm interested in ${listing.title} and would like to schedule a viewing. Please contact me with available times.`}
             />
@@ -561,14 +631,26 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
             Send Message
           </button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 
   // Full Image Gallery Modal
   const FullImageGallery = () => (
-    <div className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-6xl h-full" ref={modalRef}>
+    <motion.div
+      className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="relative w-full max-w-6xl h-full"
+        ref={modalRef}
+        initial={{ scale: 0.98, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.98, opacity: 0 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      >
         <button
           onClick={() => setShowAllImages(false)}
           className="absolute top-4 right-4 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
@@ -634,14 +716,24 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
             ))}
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div
+      className="min-h-screen bg-background"
+      variants={pageVariants}
+      initial="hidden"
+      animate="show"
+    >
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-border">
+      <motion.nav
+        className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-border"
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -674,15 +766,30 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+      <motion.main
+        className="max-w-7xl mx-auto px-4 md:px-8 py-8"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Images & Details */}
-          <div className="lg:w-2/3">
+          <motion.div
+            className="lg:w-2/3"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             {/* Title & Price */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
@@ -713,20 +820,35 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                 <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                 <span className="font-semibold">{listing.status}</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Image Gallery */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               <ImageGallery />
-            </div>
+            </motion.div>
 
             {/* Quick Stats */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               <QuickStats />
-            </div>
+            </motion.div>
 
             {/* Tabs Navigation */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               <div className="flex overflow-x-auto border-b border-border">
                 {[
                   "overview",
@@ -748,12 +870,22 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Selected Tab Content */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               {selectedFeature === "overview" && (
-                <div className="bg-white rounded-2xl border border-border p-6">
+                <motion.div
+                  className="bg-white rounded-2xl border border-border p-6"
+                  variants={panelVariants}
+                  initial="hidden"
+                  animate="show"
+                >
                   <h3 className="text-xl font-bold text-foreground mb-4">
                     Property Overview
                   </h3>
@@ -793,17 +925,22 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {selectedFeature === "features" && <FeaturesAmenities />}
 
               {selectedFeature === "location" && (
-                <div className="bg-white rounded-2xl border border-border p-6">
+                <motion.div
+                  className="bg-white rounded-2xl border border-border p-6"
+                  variants={panelVariants}
+                  initial="hidden"
+                  animate="show"
+                >
                   <h3 className="text-xl font-bold text-foreground mb-4">
                     Location Details
                   </h3>
-                  <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl mb-6 flex items-center justify-center">
+                  <div className="aspect-video bg-linear-to-br from-primary/5 to-secondary/5 rounded-xl mb-6 flex items-center justify-center">
                     <div className="text-center">
                       <Globe
                         size={48}
@@ -834,23 +971,38 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                       <div className="font-semibold">30/100</div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
 
             {/* Price Breakdown */}
-            <div className="mb-8">
+            <motion.div
+              className="mb-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+            >
               <PriceBreakdown />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column - Agent & Actions */}
-          <div className="lg:w-1/3">
+          <motion.div
+            className="lg:w-1/3"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             <div className="sticky top-24 space-y-6">
               <AgentCard />
 
               {/* Action Buttons */}
-              <div className="bg-white rounded-2xl border border-border p-6">
+              <motion.div
+                className="bg-white rounded-2xl border border-border p-6"
+                variants={panelVariants}
+                initial="hidden"
+                animate="show"
+              >
                 <h3 className="text-xl font-bold text-foreground mb-4">
                   Schedule a Visit
                 </h3>
@@ -868,10 +1020,15 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                     Download Brochure
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Additional Info */}
-              <div className="bg-white rounded-2xl border border-border p-6">
+              <motion.div
+                className="bg-white rounded-2xl border border-border p-6"
+                variants={panelVariants}
+                initial="hidden"
+                animate="show"
+              >
                 <h3 className="text-xl font-bold text-foreground mb-4">
                   Property Insights
                 </h3>
@@ -898,16 +1055,18 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </main>
+      </motion.main>
 
       {/* Modals */}
-      {showContactForm && <ContactFormModal />}
-      {showAllImages && <FullImageGallery />}
-    </div>
+      <AnimatePresence>
+        {showContactForm && <ContactFormModal />}
+      </AnimatePresence>
+      <AnimatePresence>{showAllImages && <FullImageGallery />}</AnimatePresence>
+    </motion.div>
   );
 };
 
