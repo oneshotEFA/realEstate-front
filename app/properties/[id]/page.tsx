@@ -860,7 +860,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   <button
                     key={tab}
                     onClick={() => setSelectedFeature(tab)}
-                    className={`px-6 py-3 font-semibold capitalize transition-colors border-b-2 ${
+                    className={`px-3 py-2 md:px-6 md:py-3 whitespace-nowrap text-sm md:text-base font-semibold capitalize transition-colors border-b-2 ${
                       selectedFeature === tab
                         ? 'border-primary text-primary'
                         : 'border-transparent text-foreground/60 hover:text-foreground'

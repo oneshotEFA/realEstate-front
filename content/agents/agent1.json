@@ -1,8 +1,7 @@
 {
   "id": "agent_101",
   "userId": "user_101",
-  "bio": "Experienced residential real estate agent specializing in family homes and suburban properties.",
-  "licenseId": "LIC-ET-2021-101",
+  "bio": "Ayele Kebede is the visionary CEO and founder of Ayele Homes, bringing over 25 years of experience in the real estate industry. With a deep passion for helping people find their dream homes, Ayele has built the company from the ground up into a trusted leader in residential and commercial real estate. Under his leadership, Ayele Homes has become synonymous with integrity, innovation, and exceptional customer service, consistently delivering outstanding experiences that prioritize client satisfaction. Ayele’s dedication to excellence and his expert knowledge of the market have empowered thousands of families to make informed decisions and achieve their real estate goals. Driven by a commitment to trust, transparency, and long-term relationships, Ayele Kebede continues to inspire his team and the broader community, setting a high standard for professionalism and success in real estate.",
   "yearsExperience": 6,
   "specialties": ["Residential", "Family Homes", "First-Time Buyers"],
   "listings": [],
@@ -10,7 +9,7 @@
   "updatedAt": "2026-02-01T10:15:00.000Z",
   "user": {
     "id": "user_101",
-    "name": "Samuel Bekele",
+    "name": "Ayele Kebede",
     "email": "samuel.bekele@example.com",
     "phone": "+251911234567",
     "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
