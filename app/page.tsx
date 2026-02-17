@@ -1,6 +1,6 @@
-"use client";
-import { Listing } from "@/lib/type/listing";
-import { listingService } from "@/lib/services/listings";
+'use client';
+import { Listing } from '@/lib/type/listing';
+import { listingService } from '@/lib/services/listings';
 import {
   ChevronRight,
   Home as HomeIcon,
@@ -9,7 +9,6 @@ import {
   MapPin,
   Bed,
   Ruler,
-
   Car,
   ShoppingBag,
   Clock,
@@ -21,69 +20,70 @@ import {
   Filter,
   Heart,
   ArrowRight,
-} from "lucide-react";
-import Link from "next/link";
-import useSWR from "swr";
+} from 'lucide-react';
+import Link from 'next/link';
+import useSWR from 'swr';
+import { motion } from 'framer-motion';
 
 const Home = () => {
   const { data: listing } = useSWR<Listing[]>(
-    ["lists"],
+    ['lists'],
     () => listingService.getFeaturedListings(),
     {
       revalidateOnFocus: false,
-    },
+    }
   );
   const featuredProperties = listing ?? [];
-  console.log("Featured Listings:", featuredProperties);
+  console.log('Featured Listings:', featuredProperties);
   const featuredPropertiess = [
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop",
-      price: "$850,000",
-      location: "Downtown District",
-      type: "Modern Apartment",
+        'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop',
+      price: '$850,000',
+      location: 'Downtown District',
+      type: 'Modern Apartment',
       beds: 3,
       baths: 2,
-      size: "2,400 sqft",
+      size: '2,400 sqft',
       rating: 4.8,
       featured: true,
     },
     {
       id: 2,
       image:
-        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&h=400&fit=crop",
-      price: "$1,250,000",
-      location: "Suburban Heights",
-      type: "Family House",
+        'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&h=400&fit=crop',
+      price: '$1,250,000',
+      location: 'Suburban Heights',
+      type: 'Family House',
       beds: 4,
       baths: 3,
-      size: "3,500 sqft",
+      size: '3,500 sqft',
       rating: 4.9,
       featured: true,
     },
     {
       id: 3,
       image:
-        "https://images.unsplash.com/photo-1616587226154-91eab0a51dc7?w=600&h=400&fit=crop",
-      price: "$450,000",
-      location: "Hillside Area",
-      type: "Cozy Cottage",
+        'https://images.unsplash.com/photo-1616587226154-91eab0a51dc7?w=600&h=400&fit=crop',
+      price: '$450,000',
+      location: 'Hillside Area',
+      type: 'Cozy Cottage',
       beds: 2,
       baths: 1,
-      size: "1,200 sqft",
+      size: '1,200 sqft',
       rating: 4.6,
     },
     {
       id: 4,
       image:
-        "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=400&fit=crop",
-      price: "$2,100,000",
-      location: "Waterfront",
-      type: "Luxury Villa",
+        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=400&fit=crop',
+      price: '$2,100,000',
+      location: 'Waterfront',
+      type: 'Luxury Villa',
       beds: 5,
       baths: 4,
-      size: "5,000 sqft",
+      size: '5,000 sqft',
       rating: 5.0,
       featured: true,
     },
@@ -93,65 +93,95 @@ const Home = () => {
   const propertyTypes = [
     {
       icon: Building2,
-      label: "Apartments",
-      types: ["For Sale", "For Rent", "Furnished", "To Buy"],
-      count: "124",
-      color: "bg-blue-100 text-blue-600",
+      label: 'Apartments',
+      types: ['For Sale', 'For Rent', 'Furnished', 'To Buy'],
+      count: '124',
+      color: 'bg-blue-100 text-blue-600',
     },
     {
       icon: HomeIcon,
-      label: "Houses",
-      types: ["For Sale", "For Rent", "To Buy"],
-      count: "89",
-      color: "bg-green-100 text-green-600",
+      label: 'Houses',
+      types: ['For Sale', 'For Rent', 'To Buy'],
+      count: '89',
+      color: 'bg-green-100 text-green-600',
     },
     {
       icon: Leaf,
-      label: "Land",
-      types: ["For Sale", "To Buy"],
-      count: "42",
-      color: "bg-amber-100 text-amber-600",
+      label: 'Land',
+      types: ['For Sale', 'To Buy'],
+      count: '42',
+      color: 'bg-amber-100 text-amber-600',
     },
     {
       icon: Car,
-      label: "Car",
-      types: ["For Sale", "For Rent", "To Buy"],
+      label: 'Car',
+      types: ['For Sale', 'For Rent', 'To Buy'],
     },
 
     {
       icon: ShoppingBag,
-      label: "Commercial Properties",
-      types: ["Offices", "Shops", " Warehouses", "Hotels"],
+      label: 'Commercial Properties',
+      types: ['Offices', 'Shops', ' Warehouses', 'Hotels'],
     },
     {
       icon: Clock,
-      label: "Short-Term Rentals",
-      types: ["Daily/Weekly", "Furnished", " Airbnb"],
+      label: 'Short-Term Rentals',
+      types: ['Daily/Weekly', 'Furnished', ' Airbnb'],
     },
   ];
 
   // Stats
   const stats = [
-    { icon: Users, value: "1,000+", label: "Happy Customers" },
-    { icon: Building2, value: "500+", label: "Properties Listed" },
-    { icon: Shield, value: "15+", label: "Years Experience" },
-    { icon: TrendingUp, value: "98%", label: "Satisfaction Rate" },
+    { icon: Users, value: '1,000+', label: 'Happy Customers' },
+    { icon: Building2, value: '500+', label: 'Properties Listed' },
+    { icon: Shield, value: '15+', label: 'Years Experience' },
+    { icon: TrendingUp, value: '98%', label: 'Satisfaction Rate' },
   ];
 
   // Trusted by companies
   const trustedCompanies = [
-    { name: "Realty Corp", logo: "🏢" },
-    { name: "Home Advisors", logo: "🔑" },
-    { name: "Property Plus", logo: "⭐" },
-    { name: "Urban Living", logo: "🏙️" },
-    { name: "Estate Experts", logo: "💼" },
-    { name: "Dream Homes", logo: "🏡" },
+    { name: 'Realty Corp', logo: '🏢' },
+    { name: 'Home Advisors', logo: '🔑' },
+    { name: 'Property Plus', logo: '⭐' },
+    { name: 'Urban Living', logo: '🏙️' },
+    { name: 'Estate Experts', logo: '💼' },
+    { name: 'Dream Homes', logo: '🏡' },
   ];
 
+  const pageVariants = {
+    hidden: { opacity: 0, y: 12 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const panelVariants = {
+    hidden: { opacity: 0, y: 24, scale: 0.98 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55 } },
+  };
+
   return (
-    <div className="min-h-screen">
+    <motion.div
+      className="min-h-screen"
+      variants={pageVariants}
+      initial="hidden"
+      animate="show"
+    >
       {/* 1. Hero Section - Redesigned */}
-      <section className="relative px-4 md:px-8 py-16 md:py-28 overflow-hidden">
+      <motion.section
+        className="relative px-4 md:px-8 py-16 md:py-28 overflow-hidden"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {/* Background with gradient mesh */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5 -z-10" />
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/10 rounded-full blur-3xl -z-10" />
@@ -160,18 +190,18 @@ const Home = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: Content */}
-            <div className="flex flex-col gap-8">
+            <motion.div className="flex flex-col gap-8" variants={fadeUp}>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold w-fit">
                 <Star size={14} /> Trusted by 1,000+ Families
               </div>
 
               <div>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6">
-                  Discover Your{" "}
+                  Discover Your{' '}
                   <span className="relative">
                     <span className="text-primary">Dream</span>
                     <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary rounded-full" />
-                  </span>{" "}
+                  </span>{' '}
                   Home
                 </h1>
                 <p className="text-lg md:text-xl text-foreground/70">
@@ -209,7 +239,11 @@ const Home = () => {
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
                 {stats.map((stat, index) => (
-                  <div key={index} className="text-center md:text-left">
+                  <motion.div
+                    key={index}
+                    className="text-center md:text-left"
+                    variants={fadeUp}
+                  >
                     <div className="flex items-center gap-2">
                       <stat.icon size={20} className="text-primary" />
                       <p className="font-bold text-2xl text-foreground">
@@ -217,13 +251,13 @@ const Home = () => {
                       </p>
                     </div>
                     <p className="text-foreground/60 text-sm">{stat.label}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right: Hero Image with Card */}
-            <div className="relative">
+            <motion.div className="relative" variants={panelVariants}>
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&h=600&fit=crop"
@@ -261,83 +295,107 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 2. Property Types Section */}
-      <section className="px-4 md:px-8 py-20 bg-background">
+      <motion.section
+        className="px-4 md:px-8 py-20 bg-background"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <motion.div className="text-center mb-12" variants={fadeUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               Find Your Perfect Property Type
             </h2>
             <p className="text-foreground/60 text-lg">
               Browse through our curated collection of premium properties
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {propertyTypes.map((type, index) => {
               const Icon = type.icon;
               return (
-                <Link
-                  key={index}
-                  href={`/properties?type=${type.label.toLowerCase()}`}
-                  className="group relative bg-white rounded-2xl p-8 border border-border hover:border-primary hover:shadow-xl transition-all duration-300 overflow-hidden"
-                >
-                  {/* Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <motion.div key={index} variants={panelVariants}>
+                  <Link
+                    href={`/properties?type=${type.label.toLowerCase()}`}
+                    className="block h-full" // ✅ makes whole card equal height
+                  >
+                    <div
+                      className="group relative bg-white rounded-2xl p-8 border border-border 
+                       hover:border-primary hover:shadow-xl transition-all duration-300 
+                       overflow-hidden h-full flex flex-col" // ✅ forces card content to fill height
+                    >
+                      {/* Background Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <div className="relative flex flex-col gap-6">
-                    <div className="flex items-center justify-between">
-                      <div className={`${type.color} p-3 rounded-xl`}>
-                        <Icon size={28} />
-                      </div>
-                      <span className="text-2xl font-bold text-foreground">
-                        {type.count}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-2">
-                        {type.label}
-                      </h3>
-                      <div className="flex flex-col gap-2">
-                        {type.types.map((t) => (
-                          <div
-                            key={t}
-                            className="text-foreground/60 hover:text-primary transition-colors font-medium flex items-center gap-2 group/link"
-                          >
-                            <ChevronRight
-                              size={16}
-                              className="opacity-0 group-hover/link:opacity-100 transition-opacity"
-                            />
-                            {t}
+                      <div className="relative flex flex-col gap-6 flex-grow">
+                        {' '}
+                        {/* 👈 optional: keeps spacing consistent */}
+                        <div className="flex items-center justify-between">
+                          <div className={`${type.color} p-3 rounded-xl`}>
+                            <Icon size={28} />
                           </div>
-                        ))}
+                          <span className="text-2xl font-bold text-foreground">
+                            {type.count}
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold text-foreground mb-2">
+                            {type.label}
+                          </h3>
+
+                          <div className="flex flex-col gap-2">
+                            {type.types.map(t => (
+                              <div
+                                key={t}
+                                className="text-foreground/60 hover:text-primary transition-colors font-medium flex items-center gap-2 group/link"
+                              >
+                                <ChevronRight
+                                  size={16}
+                                  className="opacity-0 group-hover/link:opacity-100 transition-opacity"
+                                />
+                                {t}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Push button to bottom */}
+                        <div className="pt-4 border-t border-border mt-auto">
+                          <span className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+                            Explore Properties
+                            <ArrowRight size={18} />
+                          </span>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="pt-4 border-t border-border">
-                      <span className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
-                        Explore Properties
-                        <ArrowRight size={18} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               );
             })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 3. Featured Properties - Redesigned */}
-      <section className="px-4 md:px-8 py-20 bg-primary/5">
+      <motion.section
+        className="px-4 md:px-8 py-20 bg-primary/5"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12">
+          <motion.div
+            className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12"
+            variants={fadeUp}
+          >
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold w-fit mb-4">
                 <Star size={14} /> Premium Selection
@@ -356,14 +414,15 @@ const Home = () => {
               View All Properties
               <ArrowRight size={18} />
             </Link>
-          </div>
+          </motion.div>
 
           {/* Property Cards Grid - Enhanced */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProperties?.map((property) => (
-              <div
+            {featuredProperties?.map(property => (
+              <motion.div
                 key={property.pid}
                 className="group relative bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                variants={panelVariants}
               >
                 {/* Image with Overlay */}
                 <div className="relative h-56 overflow-hidden">
@@ -457,18 +516,24 @@ const Home = () => {
                     </span>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 4. About Section - Enhanced */}
-      <section className="px-4 md:px-8 py-20 bg-background">
+      <motion.section
+        className="px-4 md:px-8 py-20 bg-background"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Image Stack */}
-            <div className="relative">
+            <motion.div className="relative" variants={panelVariants}>
               <div className="relative h-[500px] rounded-3xl overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=700&fit=crop"
@@ -492,10 +557,10 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right: Content */}
-            <div className="flex flex-col gap-8">
+            <motion.div className="flex flex-col gap-8" variants={fadeUp}>
               <div>
                 <p className="text-primary font-semibold mb-3">WHY CHOOSE US</p>
                 <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -511,17 +576,21 @@ const Home = () => {
 
               <div className="space-y-4">
                 {[
-                  "AI-powered property matching system",
-                  "Virtual tours and 3D walkthroughs",
-                  "Transparent pricing with no hidden fees",
-                  "Dedicated personal consultant",
+                  'AI-powered property matching system',
+                  'Virtual tours and 3D walkthroughs',
+                  'Transparent pricing with no hidden fees',
+                  'Dedicated personal consultant',
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-4">
+                  <motion.div
+                    key={index}
+                    className="flex items-center gap-4"
+                    variants={fadeUp}
+                  >
                     <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <ChevronRight size={16} className="text-primary" />
                     </div>
                     <span className="text-foreground">{item}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -537,35 +606,42 @@ const Home = () => {
                   />
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 5. Trusted By - Enhanced */}
-      <section className="px-4 md:px-8 py-20 bg-gradient-to-b from-background to-primary/5">
+      <motion.section
+        className="px-4 md:px-8 py-20 bg-gradient-to-b from-background to-primary/5"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <motion.div className="text-center mb-16" variants={fadeUp}>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Trusted by Industry Leaders
             </h2>
             <p className="text-foreground/60">
               Partnered with the best in the business
             </p>
-          </div>
+          </motion.div>
 
           {/* Logo Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {trustedCompanies.map((company, index) => (
-              <div
+              <motion.div
                 key={index}
                 className="group bg-white rounded-2xl p-8 border border-border hover:border-primary hover:shadow-xl transition-all duration-300 flex flex-col items-center justify-center gap-4"
+                variants={panelVariants}
               >
                 <div className="text-4xl">{company.logo}</div>
                 <p className="font-semibold text-foreground text-center">
                   {company.name}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -597,8 +673,8 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 };
 

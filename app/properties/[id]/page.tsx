@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   ArrowLeft,
@@ -45,14 +45,14 @@ import {
   Refrigerator,
   Utensils,
   Sparkles,
-} from "lucide-react";
-import Link from "next/link";
-import { useState, useRef } from "react";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import { listingService } from "@/lib/services/listings";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import useSWR from 'swr';
+import { listingService } from '@/lib/services/listings';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Types based on your schema
 interface ListingImage {
@@ -92,8 +92,8 @@ interface Listing {
   zip: string;
   latitude?: number;
   longitude?: number;
-  status: "ACTIVE" | "PENDING" | "SOLD" | "RENTED";
-  type: "PROPERTY" | "CAR" | "OTHER";
+  status: 'ACTIVE' | 'PENDING' | 'SOLD' | 'RENTED';
+  type: 'PROPERTY' | 'CAR' | 'OTHER';
   agentId: string;
   images: string[];
   createdAt: Date;
@@ -119,16 +119,16 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showAllImages, setShowAllImages] = useState(false);
-  const [selectedFeature, setSelectedFeature] = useState("overview");
+  const [selectedFeature, setSelectedFeature] = useState('overview');
   const [showContactForm, setShowContactForm] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useSWR(
-    ["listingDetail", id],
+    ['listingDetail', id],
     () => listingService.getListingById(id),
-    { revalidateOnFocus: false },
+    { revalidateOnFocus: false }
   );
-  console.log("Fetched listing data:", data);
+  console.log('Fetched listing data:', data);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -169,12 +169,12 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
   // Navigation functions
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % listing.images.length);
+    setCurrentImageIndex(prev => (prev + 1) % listing.images.length);
   };
 
   const prevImage = () => {
     setCurrentImageIndex(
-      (prev) => (prev - 1 + listing.images.length) % listing.images.length,
+      prev => (prev - 1 + listing.images.length) % listing.images.length
     );
   };
 
@@ -193,7 +193,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
     if (listing.squareFeet) {
       return (listing.price / listing.squareFeet).toFixed(2);
     }
-    return "0";
+    return '0';
   };
 
   // Handle click outside modal
@@ -225,7 +225,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
 
         {/* Image Navigation */}
         <button
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             prevImage();
           }}
@@ -234,7 +234,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
           <ChevronLeft size={24} className="text-white" />
         </button>
         <button
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             nextImage();
           }}
@@ -264,8 +264,8 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
             onClick={() => goToImage(index)}
             className={`relative shrink-0 w-24 h-20 rounded-xl overflow-hidden border-2 transition-all ${
               currentImageIndex === index
-                ? "border-primary scale-105 shadow-lg"
-                : "border-transparent hover:border-primary/50"
+                ? 'border-primary scale-105 shadow-lg'
+                : 'border-transparent hover:border-primary/50'
             }`}
           >
             <img
@@ -480,7 +480,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
         <img
           src={
             listing.agent?.avatar ||
-            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop"
+            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop'
           }
           alt={listing.agent?.name}
           className="w-20 h-20 rounded-2xl border-2 border-white shadow-lg"
@@ -700,8 +700,8 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                 onClick={() => goToImage(index)}
                 className={`relative shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                   currentImageIndex === index
-                    ? "border-white scale-110"
-                    : "border-transparent hover:border-white/50"
+                    ? 'border-white scale-110'
+                    : 'border-transparent hover:border-white/50'
                 }`}
               >
                 <img
@@ -749,11 +749,11 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                 onClick={() => setIsFavorite(!isFavorite)}
                 className={`p-3 rounded-xl transition-all ${
                   isFavorite
-                    ? "bg-red-500/10 text-red-500"
-                    : "bg-primary/10 text-foreground hover:text-primary"
+                    ? 'bg-red-500/10 text-red-500'
+                    : 'bg-primary/10 text-foreground hover:text-primary'
                 }`}
               >
-                <Heart size={20} className={isFavorite ? "fill-red-500" : ""} />
+                <Heart size={20} className={isFavorite ? 'fill-red-500' : ''} />
               </button>
 
               <button className="p-3 rounded-xl bg-primary/10 text-foreground hover:text-primary transition-colors">
@@ -798,7 +798,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center gap-2 text-foreground/60">
                     <MapPin size={18} />
                     <span>
-                      {listing.address}, {listing.city}, {listing.state}{" "}
+                      {listing.address}, {listing.city}, {listing.state}{' '}
                       {listing.zip}
                     </span>
                   </div>
@@ -851,19 +851,19 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
             >
               <div className="flex overflow-x-auto border-b border-border">
                 {[
-                  "overview",
-                  "features",
-                  "location",
-                  "financial",
-                  "documents",
-                ].map((tab) => (
+                  'overview',
+                  'features',
+                  'location',
+                  'financial',
+                  'documents',
+                ].map(tab => (
                   <button
                     key={tab}
                     onClick={() => setSelectedFeature(tab)}
                     className={`px-6 py-3 font-semibold capitalize transition-colors border-b-2 ${
                       selectedFeature === tab
-                        ? "border-primary text-primary"
-                        : "border-transparent text-foreground/60 hover:text-foreground"
+                        ? 'border-primary text-primary'
+                        : 'border-transparent text-foreground/60 hover:text-foreground'
                     }`}
                   >
                     {tab}
@@ -879,7 +879,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
               initial="hidden"
               animate="show"
             >
-              {selectedFeature === "overview" && (
+              {selectedFeature === 'overview' && (
                 <motion.div
                   className="bg-white rounded-2xl border border-border p-6"
                   variants={panelVariants}
@@ -928,9 +928,9 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                 </motion.div>
               )}
 
-              {selectedFeature === "features" && <FeaturesAmenities />}
+              {selectedFeature === 'features' && <FeaturesAmenities />}
 
-              {selectedFeature === "location" && (
+              {selectedFeature === 'location' && (
                 <motion.div
                   className="bg-white rounded-2xl border border-border p-6"
                   variants={panelVariants}
@@ -940,18 +940,14 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   <h3 className="text-xl font-bold text-foreground mb-4">
                     Location Details
                   </h3>
-                  <div className="aspect-video bg-linear-to-br from-primary/5 to-secondary/5 rounded-xl mb-6 flex items-center justify-center">
-                    <div className="text-center">
-                      <Globe
-                        size={48}
-                        className="text-primary/30 mx-auto mb-4"
-                      />
-                      <p className="text-foreground/60">
-                        Interactive map would be displayed here
-                      </p>
-                    </div>
+                  <div className="rounded-3xl overflow-hidden border border-border shadow-md">
+                    <iframe
+                      src="https://maps.google.com/maps?q=addis%20ababa&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                      className="w-full h-70"
+                      loading="lazy"
+                    ></iframe>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  {/* <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                     <div>
                       <div className="text-sm text-foreground/60 mb-1">
                         School District
@@ -970,7 +966,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                       </div>
                       <div className="font-semibold">30/100</div>
                     </div>
-                  </div>
+                  </div> */}
                 </motion.div>
               )}
             </motion.div>
@@ -1050,7 +1046,7 @@ const ListingDetailPage = ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center justify-between">
                     <span className="text-foreground/60">Market Value</span>
                     <span className="font-semibold">
-                      {formatPrice(listing.price * 0.95)} -{" "}
+                      {formatPrice(listing.price * 0.95)} -{' '}
                       {formatPrice(listing.price * 1.05)}
                     </span>
                   </div>

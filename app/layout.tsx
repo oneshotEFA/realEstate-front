@@ -16,9 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AYELE-Housing -Find Your Perfect Home with Ease",
+  title: "AYELE REAL-ESTATE - Find Your Perfect Home with Ease",
   description:
     "Discover your dream home with AYELE-Housing. Browse listings, connect with agents, and make informed decisions with our user-friendly platform.",
+    
+  icons: {
+    icon: "https://res.cloudinary.com/dobairxju/image/upload/v1770385434/logo2_k0955s.jpg"
+  },
 };
 
 export default function RootLayout({
