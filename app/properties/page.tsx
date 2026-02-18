@@ -1,6 +1,6 @@
-"use client";
-import { Listing, ListingStatus, ListingType } from "@/lib/type/listing";
-import { listingService } from "@/lib/services/listings";
+'use client';
+import { Listing, ListingStatus, ListingType } from '@/lib/type/listing';
+import { listingService } from '@/lib/services/listings';
 import {
   Search,
   Filter,
@@ -28,112 +28,112 @@ import {
   ChevronLeft,
   ChevronsLeft,
   ChevronsRight,
-} from "lucide-react";
-import Link from "next/link";
-import { useState, useMemo, useEffect } from "react";
-import useSWR from "swr";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState, useMemo, useEffect } from 'react';
+import useSWR from 'swr';
+import { motion, AnimatePresence } from 'framer-motion';
 // Types based on your Prisma schema
 
 const UniversalListingPage = () => {
   const itemsPerPageOptions = [8, 16, 24, 30];
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]); // Default items per page
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<ListingType | "all">(
-    "all",
+  const [activeCategory, setActiveCategory] = useState<ListingType | 'all'>(
+    'all'
   );
   const [filters, setFilters] = useState({
-    type: "all" as ListingType | "all",
+    type: 'all' as ListingType | 'all',
     priceRange: [0, 5000000],
-    bedrooms: "any" as string | number,
-    bathrooms: "any" as string | number,
-    sortBy: "featured",
-    status: "all" as ListingStatus | "all",
-    city: "all",
+    bedrooms: 'any' as string | number,
+    bathrooms: 'any' as string | number,
+    sortBy: 'featured',
+    status: 'all' as ListingStatus | 'all',
+    city: 'all',
     yearBuilt: [1990, 2024] as [number, number],
     squareFeet: [0, 10000] as [number, number],
     // Car specific
     carYear: [2000, 2024] as [number, number],
     carMileage: [0, 200000] as [number, number],
-    carType: "all",
+    carType: 'all',
     // Electronics specific
-    electronicsCondition: "all",
+    electronicsCondition: 'all',
     // Other filters
-    searchQuery: "",
+    searchQuery: '',
   });
   const { data: listingss } = useSWR<{
     data: Listing[];
     meta: { total: number; page: number; limit: number; totalPage: number };
   }>(
-    ["listings", currentPage, itemsPerPage, filters],
+    ['listings', currentPage, itemsPerPage, filters],
     () => listingService.getListingByPage(currentPage, itemsPerPage, filters),
     {
       revalidateOnFocus: false,
-    },
+    }
   );
   const listings: Listing[] = listingss?.data ?? [];
   const meta = listingss?.meta ?? { total: 0, page: 0, limit: 0, totalPage: 0 };
 
   const categories = [
     {
-      value: "all" as ListingType | "all",
-      label: "All Listings",
+      value: 'all' as ListingType | 'all',
+      label: 'All Listings',
       icon: Layers,
-      color: "from-primary/20 to-primary/10",
+      color: 'from-primary/20 to-primary/10',
     },
     {
-      value: "PROPERTY",
-      label: "Properties",
+      value: 'PROPERTY',
+      label: 'Properties',
       icon: HomeIcon,
-      color: "from-blue-500/20 to-blue-400/10",
+      color: 'from-blue-500/20 to-blue-400/10',
     },
     {
-      value: "CAR",
-      label: "Cars",
+      value: 'CAR',
+      label: 'Cars',
       icon: Car,
-      color: "from-red-500/20 to-red-400/10",
+      color: 'from-red-500/20 to-red-400/10',
     },
   ];
 
   const pricePresets = [
-    { label: "Under $10K", min: 0, max: 10000 },
-    { label: "$10K - $50K", min: 10000, max: 50000 },
-    { label: "$50K - $100K", min: 50000, max: 100000 },
-    { label: "$100K - $500K", min: 100000, max: 500000 },
-    { label: "Over $500K", min: 500000, max: 5000000 },
+    { label: 'Under $10K', min: 0, max: 10000 },
+    { label: '$10K - $50K', min: 10000, max: 50000 },
+    { label: '$50K - $100K', min: 50000, max: 100000 },
+    { label: '$100K - $500K', min: 100000, max: 500000 },
+    { label: 'Over $500K', min: 500000, max: 5000000 },
   ];
 
   // Status options
   const statusOptions = [
-    { value: "all", label: "All Status", color: "bg-foreground/10" },
-    { value: "ACTIVE", label: "Active", color: "bg-green-100 text-green-800" },
+    { value: 'all', label: 'All Status', color: 'bg-foreground/10' },
+    { value: 'ACTIVE', label: 'Active', color: 'bg-green-100 text-green-800' },
     {
-      value: "PENDING",
-      label: "Pending",
-      color: "bg-yellow-100 text-yellow-800",
+      value: 'PENDING',
+      label: 'Pending',
+      color: 'bg-yellow-100 text-yellow-800',
     },
-    { value: "SOLD", label: "Sold", color: "bg-red-100 text-red-800" },
-    { value: "RENTED", label: "Rented", color: "bg-blue-100 text-blue-800" },
+    { value: 'SOLD', label: 'Sold', color: 'bg-red-100 text-red-800' },
+    { value: 'RENTED', label: 'Rented', color: 'bg-blue-100 text-blue-800' },
   ];
 
   // Sort options
   const sortOptions = [
-    { value: "featured", label: "Featured", icon: Sparkles },
-    { value: "price-low", label: "Price: Low to High", icon: DollarSign },
-    { value: "price-high", label: "Price: High to Low", icon: TrendingUp },
-    { value: "newest", label: "Newest", icon: Calendar },
-    { value: "oldest", label: "Oldest", icon: Clock },
+    { value: 'featured', label: 'Featured', icon: Sparkles },
+    { value: 'price-low', label: 'Price: Low to High', icon: DollarSign },
+    { value: 'price-high', label: 'Price: High to Low', icon: TrendingUp },
+    { value: 'newest', label: 'Newest', icon: Calendar },
+    { value: 'oldest', label: 'Oldest', icon: Clock },
   ];
 
   // Items per page options
 
   // City options (unique cities from listings)
   const cityOptions = [
-    "all",
-    ...Array.from(new Set(listings?.map((l) => l?.city))),
+    'all',
+    ...Array.from(new Set(listings?.map(l => l?.city))),
   ];
 
   const totalItems = meta.total;
@@ -179,17 +179,17 @@ const UniversalListingPage = () => {
   const currentItems = listings;
 
   // Handle category change
-  const handleCategoryChange = (category: ListingType | "all") => {
+  const handleCategoryChange = (category: ListingType | 'all') => {
     setActiveCategory(category);
-    setFilters((prev) => ({ ...prev, type: category }));
+    setFilters(prev => ({ ...prev, type: category }));
   };
 
   // Handle favorite toggle
   const toggleFavorite = (pid: string) => {
-    setFavorites((prev) =>
+    setFavorites(prev =>
       prev.includes(pid)
-        ? prev.filter((favPid) => favPid !== pid)
-        : [...prev, pid],
+        ? prev.filter(favPid => favPid !== pid)
+        : [...prev, pid]
     );
   };
 
@@ -205,13 +205,13 @@ const UniversalListingPage = () => {
   };
 
   // Get category stats
-  const categoryStats = categories.map((category) => {
-    const count = listings?.filter((listing) =>
-      category.value === "all" ? true : listing.type === category.value,
+  const categoryStats = categories.map(category => {
+    const count = listings?.filter(listing =>
+      category.value === 'all' ? true : listing.type === category.value
     ).length;
     const totalValue = listings
-      .filter((listing) =>
-        category.value === "all" ? true : listing.type === category.value,
+      .filter(listing =>
+        category.value === 'all' ? true : listing.type === category.value
       )
       .reduce((sum, listing) => sum + listing.price, 0);
 
@@ -243,13 +243,13 @@ const UniversalListingPage = () => {
             <span className="text-sm text-foreground/60">Show:</span>
             <select
               value={itemsPerPage}
-              onChange={(e) => {
+              onChange={e => {
                 setItemsPerPage(Number(e.target.value));
                 setCurrentPage(1);
               }}
               className="px-3 py-1.5 border border-border rounded-lg bg-white text-sm font-medium"
             >
-              {itemsPerPageOptions.map((option) => (
+              {itemsPerPageOptions.map(option => (
                 <option key={option} value={option}>
                   {option} per page
                 </option>
@@ -258,8 +258,8 @@ const UniversalListingPage = () => {
           </div>
 
           <div className="text-sm text-foreground/60">
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
+            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{' '}
             items
           </div>
         </div>
@@ -276,7 +276,7 @@ const UniversalListingPage = () => {
 
           {/* Previous page */}
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
             className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
@@ -299,14 +299,14 @@ const UniversalListingPage = () => {
               </>
             )}
 
-            {pageNumbers.map((page) => (
+            {pageNumbers.map(page => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
                   currentPage === page
-                    ? "bg-linear-to-r from-primary to-secondary text-white shadow-md"
-                    : "hover:bg-primary/5"
+                    ? 'bg-linear-to-r from-primary to-secondary text-white shadow-md'
+                    : 'hover:bg-primary/5'
                 }`}
               >
                 {page}
@@ -330,7 +330,7 @@ const UniversalListingPage = () => {
 
           {/* Next page */}
           <button
-            onClick={() => setCurrentPage((prev) => prev + 1)}
+            onClick={() => setCurrentPage(prev => prev + 1)}
             disabled={currentPage === totalPages}
             className="p-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
@@ -358,7 +358,7 @@ const UniversalListingPage = () => {
       <div className="lg:hidden flex flex-col items-center gap-4 mt-8">
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
             className="px-4 py-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
           >
@@ -371,7 +371,7 @@ const UniversalListingPage = () => {
 
           <button
             onClick={() =>
-              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              setCurrentPage(prev => Math.min(totalPages, prev + 1))
             }
             disabled={currentPage === totalPages}
             className="px-4 py-2 rounded-lg border border-border hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-medium"
@@ -382,7 +382,7 @@ const UniversalListingPage = () => {
 
         <div className="text-sm text-foreground/60">
           Showing {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{' '}
           items
         </div>
       </div>
@@ -417,20 +417,20 @@ const UniversalListingPage = () => {
           <button
             onClick={() => {
               setFilters({
-                type: "all",
+                type: 'all',
                 priceRange: [0, 5000000],
-                bedrooms: "any",
-                bathrooms: "any",
-                sortBy: "featured",
-                status: "all",
-                city: "all",
+                bedrooms: 'any',
+                bathrooms: 'any',
+                sortBy: 'featured',
+                status: 'all',
+                city: 'all',
                 yearBuilt: [1990, 2024],
                 squareFeet: [0, 10000],
                 carYear: [2000, 2024],
                 carMileage: [0, 200000],
-                carType: "all",
-                electronicsCondition: "all",
-                searchQuery: "",
+                carType: 'all',
+                electronicsCondition: 'all',
+                searchQuery: '',
               });
               setCurrentPage(1);
             }}
@@ -450,34 +450,34 @@ const UniversalListingPage = () => {
             Selection
           </label>
           <div className="grid grid-cols-2 gap-3">
-            {categoryStats.map((category) => {
+            {categoryStats.map(category => {
               const Icon = category.icon;
               const isActive = activeCategory === category.value;
               return (
                 <button
                   key={category.value}
                   onClick={() => {
-                    handleCategoryChange(category.value as ListingType | "all");
+                    handleCategoryChange(category.value as ListingType | 'all');
                     setShowFilters(false);
                     setCurrentPage(1);
                   }}
                   className={`relative flex flex-col items-start p-3 rounded-2xl border transition-all duration-500 overflow-hidden group ${
                     isActive
-                      ? "border-primary bg-primary/3 ring-1 ring-primary/20 shadow-sm"
-                      : "border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-300"
+                      ? 'border-primary bg-primary/3 ring-1 ring-primary/20 shadow-sm'
+                      : 'border-slate-100 bg-slate-50/50 hover:bg-white hover:border-slate-300'
                   }`}
                 >
                   <div
                     className={`p-2 rounded-xl mb-3 transition-all duration-500 ${
                       isActive
-                        ? "bg-primary text-white scale-110"
-                        : "bg-white text-slate-400 shadow-sm"
+                        ? 'bg-primary text-white scale-110'
+                        : 'bg-white text-slate-400 shadow-sm'
                     }`}
                   >
                     <Icon size={18} />
                   </div>
                   <span
-                    className={`text-xs font-bold ${isActive ? "text-primary" : "text-slate-600"}`}
+                    className={`text-xs font-bold ${isActive ? 'text-primary' : 'text-slate-600'}`}
                   >
                     {category.label}
                   </span>
@@ -523,7 +523,7 @@ const UniversalListingPage = () => {
               <button
                 key={idx}
                 onClick={() => {
-                  setFilters((prev) => ({
+                  setFilters(prev => ({
                     ...prev,
                     priceRange: [preset.min, preset.max],
                   }));
@@ -538,7 +538,7 @@ const UniversalListingPage = () => {
         </div>
 
         {/* Property Details Section */}
-        {(filters.type === "PROPERTY" || filters.type === "all") && (
+        {(filters.type === 'PROPERTY' || filters.type === 'all') && (
           <div className="space-y-6 mb-10">
             <div className="flex items-center gap-2 mb-4">
               <HomeIcon size={16} className="text-primary" />
@@ -553,20 +553,20 @@ const UniversalListingPage = () => {
                   Bedrooms
                 </label>
                 <div className="flex gap-2 p-1.5 bg-slate-100 rounded-2xl w-fit">
-                  {["any", "1", "2", "3", "4+"].map((num) => (
+                  {['any', '1', '2', '3', '4+'].map(num => (
                     <button
                       key={num}
                       onClick={() => {
-                        setFilters((p) => ({ ...p, bedrooms: num }));
+                        setFilters(p => ({ ...p, bedrooms: num }));
                         setCurrentPage(1);
                       }}
                       className={`w-10 h-10 rounded-xl text-xs font-bold transition-all ${
                         filters.bedrooms === num
-                          ? "bg-white text-primary shadow-sm scale-110"
-                          : "text-slate-500 hover:text-slate-800"
+                          ? 'bg-white text-primary shadow-sm scale-110'
+                          : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
-                      {num === "any" ? "All" : num}
+                      {num === 'any' ? 'All' : num}
                     </button>
                   ))}
                 </div>
@@ -583,13 +583,13 @@ const UniversalListingPage = () => {
           <div className="relative group">
             <select
               value={filters.sortBy}
-              onChange={(e) => {
-                setFilters((prev) => ({ ...prev, sortBy: e.target.value }));
+              onChange={e => {
+                setFilters(prev => ({ ...prev, sortBy: e.target.value }));
                 setCurrentPage(1);
               }}
               className="w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-700 appearance-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
             >
-              {sortOptions.map((opt) => (
+              {sortOptions.map(opt => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -626,27 +626,27 @@ const UniversalListingPage = () => {
   // Active Filters Display
   const ActiveFilters = () => {
     const activeFilters = [];
-    if (filters.type !== "all") {
-      const category = categories.find((c) => c.value === filters.type);
-      activeFilters.push(category?.label || "");
+    if (filters.type !== 'all') {
+      const category = categories.find(c => c.value === filters.type);
+      activeFilters.push(category?.label || '');
     }
 
-    if (filters.status !== "all") {
-      const status = statusOptions.find((s) => s.value === filters.status);
-      activeFilters.push(status?.label || "");
+    if (filters.status !== 'all') {
+      const status = statusOptions.find(s => s.value === filters.status);
+      activeFilters.push(status?.label || '');
     }
 
-    if (filters.city !== "all") {
+    if (filters.city !== 'all') {
       activeFilters.push(filters.city);
     }
 
-    if (filters.bedrooms !== "any") {
+    if (filters.bedrooms !== 'any') {
       activeFilters.push(
-        filters.bedrooms === "4+" ? "4+ Beds" : `${filters.bedrooms}+ Beds`,
+        filters.bedrooms === '4+' ? '4+ Beds' : `${filters.bedrooms}+ Beds`
       );
     }
 
-    if (filters.bathrooms !== "any") {
+    if (filters.bathrooms !== 'any') {
       activeFilters.push(`${filters.bathrooms}+ Baths`);
     }
 
@@ -674,20 +674,20 @@ const UniversalListingPage = () => {
         <button
           onClick={() => {
             setFilters({
-              type: "all",
+              type: 'all',
               priceRange: [0, 5000000],
-              bedrooms: "any",
-              bathrooms: "any",
-              sortBy: "featured",
-              status: "all",
-              city: "all",
+              bedrooms: 'any',
+              bathrooms: 'any',
+              sortBy: 'featured',
+              status: 'all',
+              city: 'all',
               yearBuilt: [1990, 2024],
               squareFeet: [0, 10000],
               carYear: [2000, 2024],
               carMileage: [0, 200000],
-              carType: "all",
-              electronicsCondition: "all",
-              searchQuery: "",
+              carType: 'all',
+              electronicsCondition: 'all',
+              searchQuery: '',
             });
             setCurrentPage(1);
           }}
@@ -701,7 +701,7 @@ const UniversalListingPage = () => {
 
   // Get category icon
   const getCategoryIcon = (type: ListingType) => {
-    const category = categories.find((c) => c.value === type);
+    const category = categories.find(c => c.value === type);
     return category?.icon || HomeIcon;
   };
 
@@ -728,11 +728,11 @@ const UniversalListingPage = () => {
               <Sparkles size={14} /> Universal Marketplace
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Find{" "}
+              Find{' '}
               <span className="relative">
                 <span className="text-primary">Anything</span>
                 <div className="absolute -bottom-2 left-0 right-0 h-1 bg-linear-to-r from-primary to-secondary rounded-full" />
-              </span>{" "}
+              </span>{' '}
               You Need
             </h1>
             <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto">
@@ -751,8 +751,8 @@ const UniversalListingPage = () => {
                     <input
                       type="text"
                       value={filters.searchQuery}
-                      onChange={(e) => {
-                        setFilters((prev) => ({
+                      onChange={e => {
+                        setFilters(prev => ({
                           ...prev,
                           searchQuery: e.target.value,
                         }));
@@ -764,7 +764,7 @@ const UniversalListingPage = () => {
                     {filters.searchQuery && (
                       <button
                         onClick={() => {
-                          setFilters((prev) => ({ ...prev, searchQuery: "" }));
+                          setFilters(prev => ({ ...prev, searchQuery: '' }));
                           setCurrentPage(1);
                         }}
                         className="p-1 hover:bg-primary/10 rounded"
@@ -791,21 +791,21 @@ const UniversalListingPage = () => {
 
               {/* Category Quick Select */}
               <div className="flex flex-wrap gap-2 mt-4">
-                {categoryStats.map((category) => {
+                {categoryStats.map(category => {
                   const Icon = category.icon;
                   return (
                     <button
                       key={category.value}
                       onClick={() => {
                         handleCategoryChange(
-                          category.value as ListingType | "all",
+                          category.value as ListingType | 'all'
                         );
                         setCurrentPage(1);
                       }}
                       className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                         activeCategory === category.value
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-primary/5 text-foreground hover:bg-primary/10"
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-primary/5 text-foreground hover:bg-primary/10'
                       }`}
                     >
                       <Icon size={14} />
@@ -849,7 +849,7 @@ const UniversalListingPage = () => {
                   Category Values
                 </h4>
                 <div className="space-y-3">
-                  {categoryStats.slice(1).map((category) => (
+                  {categoryStats.slice(1).map(category => (
                     <div
                       key={category.value}
                       className="flex items-center justify-between"
@@ -882,7 +882,7 @@ const UniversalListingPage = () => {
                 >
                   <motion.div
                     className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white p-6 overflow-y-auto"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={e => e.stopPropagation()}
                     initial={{ x: 80, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 80, opacity: 0 }}
@@ -926,7 +926,7 @@ const UniversalListingPage = () => {
               >
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">
-                    Showing {Math.min(currentItems.length, itemsPerPage)} of{" "}
+                    Showing {Math.min(currentItems.length, itemsPerPage)} of{' '}
                     {totalItems} Listings
                     {totalPages > 1 &&
                       ` • Page ${currentPage} of ${totalPages}`}
@@ -940,13 +940,13 @@ const UniversalListingPage = () => {
                     <span className="text-sm text-foreground/60">Show:</span>
                     <select
                       value={itemsPerPage}
-                      onChange={(e) => {
+                      onChange={e => {
                         setItemsPerPage(Number(e.target.value));
                         setCurrentPage(1);
                       }}
                       className="px-3 py-1.5 border border-border rounded-lg bg-white text-sm font-medium"
                     >
-                      {itemsPerPageOptions.map((option) => (
+                      {itemsPerPageOptions.map(option => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -957,21 +957,21 @@ const UniversalListingPage = () => {
                   {/* View Toggle */}
                   <div className="flex items-center gap-1 bg-white border border-border rounded-xl p-1 shadow-sm">
                     <button
-                      onClick={() => setViewMode("grid")}
+                      onClick={() => setViewMode('grid')}
                       className={`p-2.5 rounded-lg transition-all ${
-                        viewMode === "grid"
-                          ? "bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md"
-                          : "hover:bg-primary/10 text-foreground/60"
+                        viewMode === 'grid'
+                          ? 'bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md'
+                          : 'hover:bg-primary/10 text-foreground/60'
                       }`}
                     >
                       <Grid size={20} />
                     </button>
                     <button
-                      onClick={() => setViewMode("list")}
+                      onClick={() => setViewMode('list')}
                       className={`p-2.5 rounded-lg transition-all ${
-                        viewMode === "list"
-                          ? "bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md"
-                          : "hover:bg-primary/10 text-foreground/60"
+                        viewMode === 'list'
+                          ? 'bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md'
+                          : 'hover:bg-primary/10 text-foreground/60'
                       }`}
                     >
                       <List size={20} />
@@ -982,8 +982,8 @@ const UniversalListingPage = () => {
                   <div className="relative">
                     <select
                       value={filters.sortBy}
-                      onChange={(e) => {
-                        setFilters((prev) => ({
+                      onChange={e => {
+                        setFilters(prev => ({
                           ...prev,
                           sortBy: e.target.value,
                         }));
@@ -991,7 +991,7 @@ const UniversalListingPage = () => {
                       }}
                       className="appearance-none px-4 py-2.5 border border-border rounded-xl hover:bg-primary/5 transition-all font-medium text-sm pr-10 bg-white"
                     >
-                      {sortOptions.map((option) => (
+                      {sortOptions.map(option => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
@@ -1006,7 +1006,7 @@ const UniversalListingPage = () => {
                   {/* Mobile Filter Button */}
                   <button
                     onClick={() => setShowFilters(true)}
-                    className="lg:hidden px-4 py-2.5 border-2 border-primary text-primary rounded-xl hover:bg-primary/5 transition-all font-semibold flex items-center gap-2"
+                    className="hidden md:flex px-4 py-2.5 border-2 border-primary text-primary rounded-xl hover:bg-primary/5 transition-all font-semibold items-center gap-2"
                   >
                     <SlidersHorizontal size={18} />
                     Filters
@@ -1030,20 +1030,20 @@ const UniversalListingPage = () => {
                   <button
                     onClick={() => {
                       setFilters({
-                        type: "all",
+                        type: 'all',
                         priceRange: [0, 5000000],
-                        bedrooms: "any",
-                        bathrooms: "any",
-                        sortBy: "featured",
-                        status: "all",
-                        city: "all",
+                        bedrooms: 'any',
+                        bathrooms: 'any',
+                        sortBy: 'featured',
+                        status: 'all',
+                        city: 'all',
                         yearBuilt: [1990, 2024],
                         squareFeet: [0, 10000],
                         carYear: [2000, 2024],
                         carMileage: [0, 200000],
-                        carType: "all",
-                        electronicsCondition: "all",
-                        searchQuery: "",
+                        carType: 'all',
+                        electronicsCondition: 'all',
+                        searchQuery: '',
                       });
                       setCurrentPage(1);
                     }}
@@ -1056,19 +1056,19 @@ const UniversalListingPage = () => {
                 <>
                   <motion.div
                     className={
-                      viewMode === "grid"
-                        ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-                        : "space-y-6"
+                      viewMode === 'grid'
+                        ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+                        : 'space-y-6'
                     }
                     variants={staggerContainer}
                     initial="hidden"
                     animate="show"
                   >
-                    {currentItems.map((listing) => {
+                    {currentItems.map(listing => {
                       const CategoryIcon = getCategoryIcon(listing.type);
                       const statusColor =
-                        statusOptions.find((s) => s.value === listing.status)
-                          ?.color || "bg-foreground/10";
+                        statusOptions.find(s => s.value === listing.status)
+                          ?.color || 'bg-foreground/10';
 
                       return (
                         <Link
@@ -1078,21 +1078,21 @@ const UniversalListingPage = () => {
                         >
                           <motion.article
                             className={`group bg-white rounded-2xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 ${
-                              viewMode === "list"
-                                ? "flex flex-col md:flex-row"
-                                : "hover:-translate-y-2"
+                              viewMode === 'list'
+                                ? 'flex flex-col md:flex-row'
+                                : 'hover:-translate-y-2'
                             }`}
                             variants={cardVariants}
                             initial="hidden"
                             animate="show"
-                            whileHover={{ y: viewMode === "list" ? 0 : -6 }}
+                            whileHover={{ y: viewMode === 'list' ? 0 : -6 }}
                           >
                             {/* Image */}
                             <div
                               className={`relative overflow-hidden ${
-                                viewMode === "list"
-                                  ? "md:w-80 h-64 md:h-auto shrink-0"
-                                  : "h-56"
+                                viewMode === 'list'
+                                  ? 'md:w-80 h-64 md:h-auto shrink-0'
+                                  : 'h-56'
                               }`}
                             >
                               <img
@@ -1114,23 +1114,23 @@ const UniversalListingPage = () => {
 
                               {/* Favorite Button */}
                               <button
-                                onClick={(e) => {
+                                onClick={e => {
                                   e.preventDefault();
                                   e.stopPropagation();
                                   toggleFavorite(listing.pid);
                                 }}
                                 className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-sm transition-all ${
                                   favorites.includes(listing.pid)
-                                    ? "bg-red-500/20 text-red-500"
-                                    : "bg-white/20 text-white hover:bg-white/30"
+                                    ? 'bg-red-500/20 text-red-500'
+                                    : 'bg-white/20 text-white hover:bg-white/30'
                                 }`}
                               >
                                 <Heart
                                   size={18}
                                   className={
                                     favorites.includes(listing.pid)
-                                      ? "fill-red-500"
-                                      : ""
+                                      ? 'fill-red-500'
+                                      : ''
                                   }
                                 />
                               </button>
@@ -1147,7 +1147,7 @@ const UniversalListingPage = () => {
 
                             {/* Content */}
                             <div
-                              className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}
+                              className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}
                             >
                               <div className="flex items-start justify-between mb-4">
                                 <div className="flex-1">
@@ -1166,7 +1166,7 @@ const UniversalListingPage = () => {
                                   <div className="flex items-center gap-1 text-foreground/60 text-sm mb-3">
                                     <MapPin size={14} />
                                     <span>
-                                      {listing.address}, {listing.city},{" "}
+                                      {listing.address}, {listing.city},{' '}
                                       {listing.state}
                                     </span>
                                   </div>
@@ -1174,22 +1174,22 @@ const UniversalListingPage = () => {
                               </div>
 
                               {/* Description - Only in list view */}
-                              {viewMode === "list" && (
+                              {viewMode === 'list' && (
                                 <p className="text-foreground/70 mb-4 line-clamp-2">
                                   {listing.description}
                                 </p>
                               )}
 
                               {/* Property Details (if property) */}
-                              {listing.type === "PROPERTY" &&
+                              {listing.type === 'PROPERTY' &&
                                 (listing.bedrooms ||
                                   listing.bathrooms ||
                                   listing.squareFeet) && (
                                   <div
                                     className={`grid ${
-                                      viewMode === "list"
-                                        ? "grid-cols-3"
-                                        : "grid-cols-3"
+                                      viewMode === 'list'
+                                        ? 'grid-cols-3'
+                                        : 'grid-cols-3'
                                     } gap-3 mb-4`}
                                   >
                                     {listing.bedrooms && (
@@ -1227,7 +1227,7 @@ const UniversalListingPage = () => {
                                           />
                                         </div>
                                         <span className="text-sm font-semibold text-foreground">
-                                          {listing.squareFeet.toLocaleString()}{" "}
+                                          {listing.squareFeet.toLocaleString()}{' '}
                                           sqft
                                         </span>
                                       </div>
